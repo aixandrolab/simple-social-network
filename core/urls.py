@@ -5,5 +5,6 @@ from core import views
 app_name = 'core'
 
 urlpatterns = [
-    path('', views.home_view, name='home')
+    path('', views.home_view, name='home'),
+    path('login/', views.login_view, name='login'),
 ]
