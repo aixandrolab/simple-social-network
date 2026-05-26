@@ -3,3 +3,4 @@ Django==6.0.5
 python-dotenv==1.2.2
 sqlparse==0.5.5
 django-debug-toolbar==6.0.0
+django-cleanup==9.0.0

@@ -1,7 +1,26 @@
+body {
+   background: black;
+}
+
 .bg-orange {
     background-color: darkorange;
 }
 
+.bg-orange:hover {
+    background-color: orange;
+}
+
 .text-orange {
     color: darkorange;
+}
+
+.card-custom {
+    transition: all 0.5s ease;
+    border-radius: 15px
+}
+
+.explore-block-style {
+    box-shadow: 0 0 5px 0 darkorange;
+    background: black;
+    border-radius: 16px;
 }

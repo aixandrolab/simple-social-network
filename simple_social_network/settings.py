@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'profiles.apps.ProfilesConfig',
     'core.apps.CoreConfig',
 
-    'debug_toolbar'
+    'debug_toolbar',
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 MIDDLEWARE = [
@@ -149,6 +150,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+LOGIN_URL = '/login/'
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
