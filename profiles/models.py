@@ -10,7 +10,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     email = models.EmailField(unique=True)
     biography = models.TextField(default="Hi, I'm new here!")
-    age = models.IntegerField()
+    age = models.IntegerField(blank=True, null=True)
     gender = models.CharField(choices=GENDERS, default='Not Specified', blank=True, null=True)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)

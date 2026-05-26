@@ -11,8 +11,6 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 import os
 from pathlib import Path
-
-from django.conf.global_settings import AUTH_USER_MODEL, LOGIN_URL, LOGIN_REDIRECT_URL
 from dotenv import load_dotenv
 
 if os.getenv("DJANGO_ENV") != "production":
