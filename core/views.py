@@ -31,6 +31,7 @@ def login_view(request):
                 return render(request, 'core/auth/login.html', {'form': form})
 
             login(request, user)
+            messages.success(request, f"Welcome, {request.user.username}!")
             return redirect('profiles:profile_detail')
         else:
             messages.error(request, 'Please correct the errors below.')
