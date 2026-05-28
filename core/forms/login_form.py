@@ -12,7 +12,7 @@ class LoginForm(forms.Form):
     )
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={
-            'class': 'form-control',
+            'class': 'field',
             'style': 'border-color: darkorange'
         }),
         error_messages={'required': 'Password is required!'}

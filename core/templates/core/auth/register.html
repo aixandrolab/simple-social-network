@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+    <div class="ui container">
+        <div class="ui center aligned segment">
+            <h1 class="ui header text-orange">Login</h1>
+        </div>
+        <div class="ui divider"></div>
+        <form method="post" action="" class="ui form">
+            {% csrf_token %}
+
+            <div class="field">
+                <label class="text-light">Username</label>
+                <input type="text" name="username" placeholder="Enter username">
+            </div>
+
+            <div class="field">
+                <label class="text-light">E-mail</label>
+                <input type="text" name="email" placeholder="Enter email">
+            </div>
+
+            <div class="field">
+                <label class="text-light">First name</label>
+                <input type="text" name="first_name" placeholder="Enter first name">
+            </div>
+
+            <div class="field">
+                <label class="text-light">Last name</label>
+                <input type="text" name="last_name" placeholder="Enter last name">
+            </div>
+
+            <div class="field text-light">
+                <label class="text-light">Password</label>
+                <input type="password" name="password" placeholder="Enter password">
+            </div>
+
+            <div class="field text-light">
+                <label class="text-light">Confirm Password</label>
+                <input type="password" name="confirm_password" placeholder="Confirm password">
+            </div>
+
+            <button class="ui orange button" type="submit">Login</button>
+        </form>
+    </div>
+{% endblock %}
