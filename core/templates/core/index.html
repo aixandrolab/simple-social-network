@@ -1,9 +1,28 @@
 {% extends "base.html" %}
 
+{% block title %}Home - Simple Social Network{% endblock %}
+
 {% block content %}
-    <div class="text-light text-center container">
-        <h1>Simple Social Network</h1>
-        <hr class="text-orange">
-        <p>{{ site_config.description }}</p>
+<div class="ui vertical center aligned segment" style="padding: 3em 0em;">
+    <div class="ui text container">
+        <h1 class="ui huge header">
+            Simple Social Network
+        </h1>
+        <div class="ui divider"></div>
+        <h3 class="ui grey header">{{ site_config.description }}</h3>
+
+        {% if not request.user.is_authenticated %}
+            <div class="ui hidden divider"></div>
+            <a href="{% url 'core:login' %}" class="ui huge orange button">
+                Get Started <i class="right arrow icon"></i>
+            </a>
+        {% else %}
+            <div class="ui hidden divider"></div>
+            <div class="ui positive message">
+                <i class="check circle icon"></i>
+                Welcome back, {{ request.user.username }}!
+            </div>
+        {% endif %}
     </div>
+</div>
 {% endblock %}
