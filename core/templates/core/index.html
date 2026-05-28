@@ -4,25 +4,12 @@
 
 {% block content %}
 <div class="ui vertical center aligned segment" style="padding: 3em 0em;">
-    <div class="ui text container">
-        <h1 class="ui huge header">
+    <div class="ui text-light container">
+        <h1 class="ui orange huge header">
             Simple Social Network
         </h1>
         <div class="ui divider"></div>
-        <h3 class="ui grey header">{{ site_config.description }}</h3>
-
-        {% if not request.user.is_authenticated %}
-            <div class="ui hidden divider"></div>
-            <a href="{% url 'core:login' %}" class="ui huge orange button">
-                Get Started <i class="right arrow icon"></i>
-            </a>
-        {% else %}
-            <div class="ui hidden divider"></div>
-            <div class="ui positive message">
-                <i class="check circle icon"></i>
-                Welcome back, {{ request.user.username }}!
-            </div>
-        {% endif %}
+        <h3 class="ui orange header">{{ site_config.description }}</h3>
     </div>
 </div>
 {% endblock %}

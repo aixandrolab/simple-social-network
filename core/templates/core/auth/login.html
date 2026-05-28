@@ -3,13 +3,25 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-    <div class="container text-light">
-        <h1 class="text-center">Login</h1>
-        <hr class="text-orange">
-        <form method="post" action="">
+    <div class="ui container">
+        <div class="ui center aligned segment">
+            <h1 class="ui header">Login</h1>
+        </div>
+        <div class="ui divider"></div>
+        <form method="post" action="" class="ui form">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button class="btn btn-sm bg-orange text-light" type="submit">Save</button>
+
+            <div class="field">
+                <label class="text-light">Username</label>
+                <input type="text" name="username" placeholder="Enter username">
+            </div>
+
+            <div class="field text-light">
+                <label class="text-light">Password</label>
+                <input type="password" name="password" placeholder="Enter password">
+            </div>
+
+            <button class="ui orange button" type="submit">Login</button>
         </form>
-    </div>
+</div>
 {% endblock %}

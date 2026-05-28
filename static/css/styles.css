@@ -1,5 +1,5 @@
 body {
-   background: black;
+   background: black !important;
 }
 
 .bg-orange {
@@ -23,4 +23,22 @@ body {
     box-shadow: 0 0 5px 0 darkorange;
     background: black;
     border-radius: 16px;
+}
+
+.ui.sidebar.custom-shadow {
+    box-shadow: 0 0 15px 0 darkorange !important;
+    z-index: 1001 !important;
+}
+
+.header, .meta, .description {
+    color: white !important;
+}
+
+.segment, .card {
+    background: black !important;
+    color: white;
+}
+
+.text-light {
+    color: white !important;
 }
