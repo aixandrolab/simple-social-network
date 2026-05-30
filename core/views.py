@@ -119,7 +119,7 @@ def forgot_password_view(request):
             try:
                 user = User.objects.get(email=email)
             except Exception as e:
-                messages.error(request, 'User does not exists.')
+                messages.success(request, 'Email was sent! Check your email for the letter.')
                 return render(request, 'core/auth/forgot_password.html', {'form': form})
 
             token = PasswordResetToken.create_token(user)
@@ -127,7 +127,7 @@ def forgot_password_view(request):
                     reverse('core:reset_password', kwargs={'token': token.token})
                 )
             Email.reset_password(email, url, user.username)
-            messages.success(request, 'Email was successfully sent! Check your email for the envelope.')
+            messages.success(request, 'Email was sent! Check your email for the letter.')
             cache.set(f'resend_forgot_password', email)
         else:
             messages.error(request, 'Please check that your email is correct.')
