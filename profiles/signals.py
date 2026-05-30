@@ -16,3 +16,11 @@ def save_user_profile(sender, instance, **kwargs):
         Profile.objects.create(user=instance)
     else:
         instance.profile.save()
+
+@receiver(post_save, sender=User)
+def update_new_superuser(sender, instance, created, **kwargs):
+    if created:
+        if instance.is_superuser:
+            profile = Profile.objects.get(user=instance)
+            profile.is_email_verified = True
+            profile.save()

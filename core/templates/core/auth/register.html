@@ -11,35 +11,12 @@
         <form method="post" action="" class="ui form">
             {% csrf_token %}
 
-            <div class="field">
-                <label class="text-light">Username</label>
-                <input type="text" name="username" placeholder="Enter username">
-            </div>
-
-            <div class="field">
-                <label class="text-light">E-mail</label>
-                <input type="text" name="email" placeholder="Enter email">
-            </div>
-
-            <div class="field">
-                <label class="text-light">First name</label>
-                <input type="text" name="first_name" placeholder="Enter first name">
-            </div>
-
-            <div class="field">
-                <label class="text-light">Last name</label>
-                <input type="text" name="last_name" placeholder="Enter last name">
-            </div>
-
-            <div class="field text-light">
-                <label class="text-light">Password</label>
-                <input type="password" name="password" placeholder="Enter password">
-            </div>
-
-            <div class="field text-light">
-                <label class="text-light">Confirm Password</label>
-                <input type="password" name="confirm_password" placeholder="Confirm password">
-            </div>
+            {% for field in form %}
+                <div class="field">
+                    <label class="text-light">{{ field.label }}</label>
+                    {{ field }}
+                </div>
+            {% endfor %}
 
             <button class="ui orange button" type="submit">Login</button>
         </form>
