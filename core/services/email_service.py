@@ -86,7 +86,7 @@ class PasswordResetEmail:
     def send(user_email: str, reset_url: str, username: str) -> bool:
         return EmailService.send_template(
             subject="Password Reset",
-            template="emails/passsword_reset_template.html",
+            template="emails/password_reset_template.html",
             context={
                 'username': username,
                 'reset_url': reset_url,

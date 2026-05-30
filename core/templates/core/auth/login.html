@@ -23,8 +23,10 @@
 
             <button class="ui orange button" type="submit">Login</button>
         </form>
+        <hr class="text-orange">
         <div class="ui center aligned segment">
             <p class="ui text-light text">Don't have an account yet? <a href="{% url 'core:register' %}">Register</a> now!</p>
+            <p class="ui text-light text">Forgot your password? <a href="{% url 'core:forgot_password' %}">Reset</a> it!</p>
         </div>
     </div>
 {% endblock %}
