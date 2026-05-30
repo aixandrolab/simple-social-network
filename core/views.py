@@ -1,11 +1,5 @@
-import profile
-
-from django import forms
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.models import User
-from django.db import IntegrityError
-from django.db.models import Model
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views.decorators.cache import never_cache
@@ -13,7 +7,7 @@ from django.views.decorators.cache import never_cache
 from core.forms.login_form import LoginForm
 from core.forms.register_form import RegisterForm
 from core.services.email_service import Email
-from profiles.models import EmailVerificationToken, Profile
+from profiles.models import EmailVerificationToken
 
 
 def home_view(request):
@@ -44,6 +38,7 @@ def login_view(request):
             if not user.profile.is_email_verified:
                 messages.info(request, "Your account is not activated! Please check your email"
                                        " for verification envelope")
+                return render(request, 'core/auth/login.html', {'form': form})
 
             login(request, user)
             messages.success(request, f"Welcome, {request.user.username}!")
@@ -98,7 +93,7 @@ def register_view(request):
 def confirm_register_view(request, token):
     token = get_object_or_404(EmailVerificationToken, token=token)
 
-    user = token.profile
+    user = token.user
 
     if user.profile.is_email_verified:
         messages.info(request, 'Your account is already verified! You can login now.')
