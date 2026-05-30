@@ -21,7 +21,7 @@ class Profile(models.Model):
     email = models.EmailField(unique=True)
     biography = models.TextField(default="Hi, I'm new here!")
     age = models.IntegerField(blank=True, null=True)
-    gender = models.CharField(choices=GENDERS, default='Not Specified', blank=True, null=True)
+    gender = models.CharField(choices=GENDERS, default='O', blank=True, null=True)
     is_active = models.BooleanField(default=True)
     avatar = models.ImageField(
         upload_to=user_avatar_path,

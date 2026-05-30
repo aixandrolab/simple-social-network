@@ -8,7 +8,8 @@ app_name = 'profiles'
 
 urlpatterns = [
     path('', views.profile_detail_view, name='profile_detail'),
-    path('logout/', views.logout_view, name='logout')
+    path('logout/', views.logout_view, name='logout'),
+    path('settings/', views.settings_view, name='settings'),
 ]
 
 if settings.DEBUG:

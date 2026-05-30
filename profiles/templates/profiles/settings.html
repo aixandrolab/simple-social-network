@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Settings{% endblock %}
+
+{% block content %}
+    <div class="ui container">
+        <div class="ui center aligned segment">
+            <h1 class="ui header text-orange">Settings</h1>
+        </div>
+        <div class="ui divider"></div>
+        <form method="post" action="" class="ui form">
+            {% csrf_token %}
+
+            <form method="post" action="" class="ui form">
+                {% for field in form %}
+                    <div class="field">
+                        <label class="text-light">{{ field.label }}</label>
+                        {{ field }}
+                    </div>
+                {% endfor %}
+
+                <button class="ui green button" type="submit">Apply</button>
+            </form>
+
+        </form>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+        $("#id_email, #id_first_name, #id_last_name, #id_gender, #id_age").addClass('field');
+    </script>
+{% endblock %}
