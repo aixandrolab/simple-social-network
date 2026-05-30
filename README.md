@@ -55,3 +55,7 @@ EMAIL_HOST=smtp.server.com
 EMAIL_HOST_USER=email@example.com
 EMAIL_HOST_PASSWORD=password
 ```
+
+```commandline
+python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+```

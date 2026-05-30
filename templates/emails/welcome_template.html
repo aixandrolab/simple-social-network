@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to {{ site_name }}</title>
+    <link href="{% static 'css/semantic.min.css' %}" rel="stylesheet">
+</head>
+<body style="background-color: #f4f4f4; padding: 20px; font-family: 'Segoe UI', Arial, sans-serif;">
+    <div class="ui container" style="max-width: 600px; margin: 0 auto;">
+        <div class="ui card" style="width: 100%; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+            <div class="ui center aligned header" style="background: linear-gradient(135deg, #6435c9 0%, #2185d0 100%); color: white; padding: 40px 30px; margin: 0; border-radius: 4px 4px 0 0;">
+                <i class="heart icon" style="font-size: 48px;"></i>
+                <h1 class="ui header" style="color: white; margin: 20px 0 0 0;">Welcome to {{ site_name }}!</h1>
+            </div>
+            <div class="content" style="padding: 30px;">
+                <h2 class="ui header">Hello {{ username }}!</h2>
+                <p>We're thrilled to have you join our community. Welcome to <strong>{{ site_name }}</strong>!</p>
+                <div class="ui divider"></div>
+                <div class="ui three column stackable grid" style="margin: 30px 0;">
+                    <div class="column">
+                        <div class="ui center aligned">
+                            <i class="huge users icon" style="color: #2185d0;"></i>
+                            <p>Connect with friends</p>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="ui center aligned">
+                            <i class="huge share alternate icon" style="color: #21ba45;"></i>
+                            <p>Share moments</p>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="ui center aligned">
+                            <i class="huge comment icon" style="color: #db2828;"></i>
+                            <p>Join discussions</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui positive message" style="padding: 15px;">
+                    <p>Your account has been successfully created. Start exploring and connecting with others today!</p>
+                </div>
+            </div>
+            <div class="extra content" style="background-color: #f9f9f9; padding: 20px; text-align: center; color: #666; font-size: 12px;">
+                <p>&copy; {{ site_name }}. All rights reserved.</p>
+                <p>We're here to help if you have any questions!</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

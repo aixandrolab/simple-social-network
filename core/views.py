@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 
 from core.forms.login_form import LoginForm
 from core.forms.register_form import RegisterForm
+from core.services.email_service import Email
 
 
 def home_view(request):
@@ -52,6 +53,7 @@ def register_view(request):
             if form.is_valid:
                 new_user = form.save(commit=False)
                 new_user.set_password(form.cleaned_data['password'])
+                Email.welcome(new_user.email, new_user.username)
                 new_user.save()
                 messages.success(request, "User is successfully created!")
                 return redirect('core:login')
