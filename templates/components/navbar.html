@@ -1,0 +1,14 @@
+<div class="ui inverted segment" style="box-shadow: 0 0 15px 0 darkorange !important; border-radius: 0;">
+    <div class="ui inverted secondary menu">
+        <a class="item sidebar-toggle">
+            <i class="sidebar icon"></i> Menu
+        </a>
+        <div class="right menu">
+            {% if request.user.is_authenticated %}
+                <div class="item">
+                    <i class="user icon"></i> {{ request.user.username }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

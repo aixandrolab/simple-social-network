@@ -1,0 +1,8 @@
+{% if messages %}
+    {% for message in messages %}
+        <div class="ui {% if message.tags == 'error' %}red{% elif message.tags == 'success' %}blue{% elif message.tags == 'warning' %}yellow{% else %}green{% endif %} message" role="alert">
+            <i class="close icon"></i>
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
