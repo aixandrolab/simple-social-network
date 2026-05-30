@@ -42,3 +42,7 @@ body {
 .text-light {
     color: white !important;
 }
+
+label {
+    color: white !important;
+}
