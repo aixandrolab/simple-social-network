@@ -5,8 +5,8 @@ from profiles.models import Profile
 
 
 @login_required()
-def profile_detail_view(request):
-    profile = Profile.objects.get(user=request.user)
+def profile_detail_view(request, slug):
+    profile = Profile.objects.get(slug=slug)
     context = {
         'profile': profile,
     }

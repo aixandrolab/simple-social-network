@@ -8,7 +8,7 @@ from profiles.models import Profile
 
 def login_view(request):
     if request.user.is_authenticated:
-        return redirect('profiles:profile_detail')
+        return redirect('profiles:profile_detail', slug=request.user.profile.slug)
 
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -36,7 +36,7 @@ def login_view(request):
 
             login(request, user)
             messages.success(request, f"Welcome, {request.user.username}!")
-            return redirect('profiles:profile_detail')
+            return redirect('profiles:profile_detail', slug=user.profile.slug)
         else:
             messages.error(request, 'Please correct the errors below.')
     else:

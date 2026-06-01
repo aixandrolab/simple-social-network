@@ -9,12 +9,15 @@
                 <hr>
             </div>
             {% if request.user.is_authenticated %}
-                <a class="item" href="{% url 'profiles:profile_detail' %}">
+                <a class="item" href="{{ request.user.profile.get_absolute_url }}">
                     <i class="user icon"></i> Profile
                 </a>
-            <div class="divider">
-                <hr>
-            </div>
+                <a class="item" href="{% url 'profiles:profile_search' %}">
+                    <i class="search icon"></i> Profile search
+                </a>
+                <div class="divider">
+                    <hr>
+                </div>
                 <a class="item" href="{% url 'profiles:settings' %}">
                     <i class="wrench icon"></i> Settings
                 </a>

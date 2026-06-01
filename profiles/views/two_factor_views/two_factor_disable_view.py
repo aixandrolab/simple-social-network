@@ -20,7 +20,7 @@ def two_factor_disable_view(request):
         if form.is_valid():
             user.profile.disable_2fa()
             messages.success(request, '2FA has been disabled for your account.')
-            return redirect('profiles:profile_detail')
+            return redirect('profiles:profile_detail', slug=user.profile.slug)
     else:
         form = Disable2FAForm(user)
 

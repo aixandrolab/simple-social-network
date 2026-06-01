@@ -70,7 +70,7 @@
                     {% endif %}
 
                     <div class="ui center aligned basic segment">
-                        <a href="{% url 'profiles:profile_detail' %}" class="ui button">
+                        <a href="{{ request.user.profile.get_absolute_url }}" class="ui button">
                             <i class="arrow left icon"></i>
                             Back to Profile
                         </a>

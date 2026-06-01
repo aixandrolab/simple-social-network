@@ -12,7 +12,7 @@ def change_password_view(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Profile password was successfully updated!')
-            return redirect('profiles:profile_detail')
+            return redirect('profiles:profile_detail', slug=request.user.profile.slug)
         else:
             messages.error(request, 'Incorrect input!')
     else:

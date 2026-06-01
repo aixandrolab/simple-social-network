@@ -40,7 +40,7 @@ def two_factor_verify_view(request):
             login(request, user)
             messages.success(request, f'Welcome, {user.username}!')
 
-            return redirect('profiles:profile_detail')
+            return redirect('profiles:profile_detail', slug=user.profile.slug)
         else:
             failed_attempts += 1
             request.session[session_key] = failed_attempts

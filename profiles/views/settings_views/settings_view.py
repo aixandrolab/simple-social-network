@@ -14,7 +14,7 @@ def settings_view(request):
         if form.is_valid:
             form.save()
             messages.success(request, 'Profile was successfully updated!')
-            return redirect('profiles:profile_detail')
+            return redirect('profiles:profile_detail', slug=user_profile.slug)
         else:
             messages.error(request, 'Please correct the errors below.')
             return render(request, 'profiles/settings.html', {'form': form})

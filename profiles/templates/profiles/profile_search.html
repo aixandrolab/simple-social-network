@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Search Users{% endblock %}
+
+{% block content %}
+<div class="ui container">
+    <div class="ui segment">
+        <h2 class="ui header">
+            <i class="users icon"></i>
+            <div class="content">
+                Search Users
+                <div class="sub header">Find new friends</div>
+            </div>
+        </h2>
+
+        <div class="ui divider"></div>
+
+        {% if profile_list %}
+        <div class="ui four column stackable grid">
+            {% for profile in profile_list %}
+            <div class="column">
+                <div class="ui card" style="width: 100%;">
+                    <div class="image" style="text-align: center; padding-top: 20px;">
+                        <img src="{{ profile.avatar_url }}" alt="{{ profile.user.username }}" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; display: inline-block;">
+                    </div>
+                    <div class="content">
+                        <div class="header" style="text-align: center;">
+                            {{ profile.user.get_full_name|default:profile.user.username }}
+                        </div>
+                        <div class="meta" style="text-align: center;">
+                            <span>@{{ profile.user.username }}</span>
+                        </div>
+                        <div class="description" style="margin-top: 10px;">
+                            <i class="quote left icon"></i>
+                            {{ profile.biography|truncatechars:100 }}
+                        </div>
+                    </div>
+                    <a class="ui bottom attached button primary" href="{{ profile.get_absolute_url }}">
+                        <i class="user icon"></i>
+                        View Profile
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="ui info message">
+            <div class="header">No users found</div>
+            <p>There are no profiles to display yet.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
