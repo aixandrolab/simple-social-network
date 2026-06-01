@@ -1,8 +1,9 @@
 import secrets
 import uuid
 from datetime import timedelta
-from os import MFD_ALLOW_SEALING
 
+import bcrypt
+import pyotp
 from django.contrib.auth.models import User
 from django.core.validators import FileExtensionValidator
 from django.db import models
@@ -28,6 +29,9 @@ class Profile(models.Model):
     gender = models.CharField(choices=GENDERS, default='O', blank=True, null=True)
     is_active = models.BooleanField(default=True)
     is_email_verified = models.BooleanField(default=False)
+    two_fa_secret = models.CharField(max_length=255, null=True, blank=True)
+    is_2fa_active = models.BooleanField(default=False)
+    backup_codes = models.JSONField(default=list, blank=True)
     avatar = models.ImageField(
         upload_to=user_avatar_path,
         blank=True,
@@ -48,13 +52,60 @@ class Profile(models.Model):
     def full_name(self):
         return f'{self.user.first_name} {self.user.last_name}'
 
+    def enable_2fa(self, secret):
+        self.two_fa_secret = secret
+        self.is_2fa_active = True
+        self.save()
+
+    def disable_2fa(self):
+        self.two_fa_secret = None,
+        self.is_2fa_active = False
+        self.backup_codes = []
+        self.save()
+
+    def generate_backup_codes(self, num_codes=10):
+        codes = []
+        plain_codes = []
+
+        for _ in range(num_codes):
+            code = secrets.token_urlsafe(8).upper()[:8]
+            hashed = bcrypt.hashpw(code.encode(), bcrypt.gensalt()).decode()
+            codes.append(hashed)
+            plain_codes.append(code)
+
+        self.backup_codes = codes
+        self.save()
+        return plain_codes
+
+    def verify_backup_code(self, code):
+        for i, hashed_code in enumerate(self.backup_codes):
+            if bcrypt.checkpw(code.encode(), hashed_code.encode()):
+                backup_list = list(self.backup_codes)
+                backup_list.pop(i)
+                self.backup_codes = backup_list
+                self.save()
+                return True
+        return False
+
+    def get_totp_device(self):
+        if self.two_fa_secret:
+            return pyotp.TOTP(self.two_fa_secret, interval=30)
+        return None
+
+    def verify_totp(self, code):
+        totp = self.get_totp_device()
+        if totp:
+            return totp.verify(code, valid_window=1)
+        return False
+
     @property
     def avatar_url(self):
         if self.avatar:
             return self.avatar.url
         return '/static/images/default_avatar.png'
 
-    def get_absolute_url(self):
+    @staticmethod
+    def get_absolute_url():
         return reverse('profiles:profile_detail')
 
     def __str__(self):
