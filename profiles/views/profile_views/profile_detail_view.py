@@ -6,7 +6,7 @@ from profiles.models import Profile
 
 @login_required()
 def profile_detail_view(request, slug):
-    profile = Profile.objects.get(slug=slug)
+    profile = Profile.objects.select_related('user').get(slug=slug)
     context = {
         'profile': profile,
     }

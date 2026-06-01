@@ -8,7 +8,7 @@ from profiles.models import Profile
 
 @login_required()
 def settings_view(request):
-    user_profile = Profile.objects.get(user=request.user)
+    user_profile = Profile.objects.select_related('user').get(user=request.user)
     if request.method == 'POST':
         form = SettingsForm(request.POST, instance=user_profile)
         if form.is_valid:

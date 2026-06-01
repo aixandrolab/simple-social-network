@@ -8,6 +8,10 @@
                 <div class="item">
                     <a href="{{ request.user.profile.get_absolute_url }}"><i class="user icon"></i> {{ request.user.username }}</a>
                 </div>
+            {% else %}
+                <div class="item">
+                    <a href="{% url 'core:login' %}"><i class="sign in icon"></i> Login</a>
+                </div>
             {% endif %}
         </div>
     </div>

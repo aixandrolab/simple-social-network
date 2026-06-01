@@ -6,7 +6,7 @@ from profiles.models import Profile
 
 @login_required()
 def profile_search_view(request):
-    profile_list = Profile.objects.all()
+    profile_list = Profile.objects.select_related('user').all()
     context = {
         'profile_list': profile_list,
     }
