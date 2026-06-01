@@ -6,7 +6,7 @@
         <div class="right menu">
             {% if request.user.is_authenticated %}
                 <div class="item">
-                    <i class="user icon"></i> {{ request.user.username }}
+                    <a href="{{ request.user.profile.get_absolute_url }}"><i class="user icon"></i> {{ request.user.username }}</a>
                 </div>
             {% endif %}
         </div>
