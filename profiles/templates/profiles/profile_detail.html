@@ -75,6 +75,17 @@
                             <div class="description">{{ profile.user.email|default:"Not provided" }}</div>
                         </div>
                     </div>
+                    <div class="item">
+                        <i class="shield icon"></i>
+                        <div class="content">
+                            <span class="header">2fa</span>
+                            {% if profile.is_2fa_active %}
+                                <div class="ui green description">Two-Factor authentication is enabled! Your account is safe</div>
+                            {% else %}
+                                <div class="description">2FA is not enabled! Please <a href="{% url 'profiles:two_factor_setup' %}">enable it</a> as soon as possible!</div>
+                            {% endif %}
+                        </div>
+                    </div>
 
                     {% if profile.user.date_joined %}
                     <div class="item">
