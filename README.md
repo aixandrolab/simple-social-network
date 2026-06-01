@@ -1,4 +1,4 @@
-# Simple Social Network
+# Simple Social Network <sup>v0.0.1</sup>
 
 ---
 
