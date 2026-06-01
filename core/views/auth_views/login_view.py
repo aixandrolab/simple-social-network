@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 
 from core.forms.login_form import LoginForm
+from profiles.models import Profile
 
 
 def login_view(request):
@@ -27,6 +28,11 @@ def login_view(request):
                 messages.info(request, "Your account is not activated! Please check your email"
                                        " for verification envelope")
                 return render(request, 'core/auth/login.html', {'form': form})
+
+            if user.profile.is_2fa_active:
+                request.session['2fa_user_id'] = user.id
+                messages.info(request, 'Please complete two-factor authentication.')
+                return redirect('profiles:two_factor_verify')
 
             login(request, user)
             messages.success(request, f"Welcome, {request.user.username}!")

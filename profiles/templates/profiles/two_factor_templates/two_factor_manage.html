@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Manage 2FA{% endblock %}
+
+{% block content %}
+<div class="ui container" style="margin-top: 50px;">
+    <div class="ui centered grid">
+        <div class="ten wide column" style="box-shadow: 0 0 5px darkorange">
+            <div class="ui segments">
+                <div class="ui secondary segment">
+                    <h2 class="ui center aligned header">
+                        <i class="shield icon"></i>
+                        Two-Factor Authentication
+                    </h2>
+                </div>
+                
+                <div class="ui segment">
+                    {% if is_2fa_active %}
+                        <div class="ui positive message">
+                            <p>✓ 2FA is ENABLED! Your account is protected with two-factor authentication.</p>
+                        </div>
+                        
+                        <h4 class="ui header">
+                            <i class="code icon"></i>
+                            Backup Codes
+                        </h4>
+                        <p>Backup codes can be used to access your account if you lose access to your authenticator app.</p>
+                        
+                        {% if has_backup_codes %}
+                            <div class="ui positive message">
+                                <i class="check circle icon"></i>
+                                You have active backup codes
+                            </div>
+                        {% else %}
+                            <div class="ui warning message">
+                                <i class="warning sign icon"></i>
+                                No backup codes generated
+                            </div>
+                        {% endif %}
+                        
+                        <form method="post">
+                            {% csrf_token %}
+                            <button type="submit" name="regenerate_backup_codes" class="ui yellow button">
+                                <i class="sync icon"></i>
+                                Regenerate Backup Codes
+                            </button>
+                        </form>
+
+                        <div class="ui divider"></div>
+
+                        <h4 class="ui red header">
+                            <i class="exclamation triangle icon"></i>
+                            Danger Zone
+                        </h4>
+                        <p>Disabling 2FA will make your account less secure.</p>
+                        <a href="{% url 'profiles:two_factor_disable' %}" class="ui red button">
+                            <i class="toggle off icon"></i>
+                            Disable 2FA
+                        </a>
+
+                    {% else %}
+                        <div class="ui info message">
+                            <p>ℹ️ 2FA is DISABLED! Enable two-factor authentication to secure your account.</p>
+                        </div>
+                        <a href="{% url 'profiles:two_factor_setup' %}" class="ui primary button">
+                            <i class="toggle on icon"></i>
+                            Enable 2FA
+                        </a>
+                    {% endif %}
+
+                    <div class="ui center aligned basic segment">
+                        <a href="{% url 'profiles:profile_detail' %}" class="ui button">
+                            <i class="arrow left icon"></i>
+                            Back to Profile
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

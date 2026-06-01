@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Backup Codes{% endblock %}
+
+{% block content %}
+<div class="ui container" style="margin-top: 50px;">
+    <div class="ui centered grid">
+        <div class="ten wide column" style="box-shadow: 0 0 5px darkorange">
+            <div class="ui segments">
+                <div class="ui secondary segment">
+                    <h2 class="ui center aligned header">
+                        <i class="key icon"></i>
+                        Backup Codes
+                    </h2>
+                </div>
+
+                <div class="ui segment">
+                    <div class="ui warning message">
+                        <p>⚠️ Important! Save these backup codes in a safe place. Each code can be used only once.
+                        You will need them if you lose access to your authenticator app.</p>
+                    </div>
+
+                    <div class="ui three column grid">
+                        {% for code in backup_codes %}
+                            <div class="column">
+                                <div class="ui segment" style="text-align: center; background: #f8f9fa;">
+                                    <code style="font-family: monospace; font-size: 1rem;">{{ code }}</code>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="ui center aligned basic segment">
+                        <button class="ui secondary button" id="copyCodesBtn">
+                            <i class="copy icon"></i>
+                            Copy to Clipboard
+                        </button>
+                        <button class="ui green button" id="downloadCodesBtn">
+                            <i class="download icon"></i>
+                            Download as Text
+                        </button>
+                        <a href="{% url 'profiles:two_factor_manage' %}" class="ui primary button">
+                            <i class="checkmark icon"></i>
+                            Continue to Settings
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('copyCodesBtn').addEventListener('click', function() {
+    const codes = Array.from(document.querySelectorAll('.ui.segment code')).map(code => code.textContent).join('\n');
+    navigator.clipboard.writeText(codes);
+    alert('Backup codes copied to clipboard!');
+});
+
+document.getElementById('downloadCodesBtn').addEventListener('click', function() {
+    const codes = Array.from(document.querySelectorAll('.ui.segment code')).map(code => code.textContent).join('\n');
+    const blob = new Blob([codes], {type: 'text/plain'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'Backup_Codes.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+});
+</script>
+{% endblock %}

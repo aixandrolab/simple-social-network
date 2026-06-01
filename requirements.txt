@@ -6,3 +6,7 @@ psycopg==3.3.4
 psycopg2==2.9.12
 python-dotenv==1.2.2
 sqlparse==0.5.5
+
+bcrypt==5.0.0
+pyotp==2.9.0
+qrcode==8.2

@@ -20,4 +20,4 @@ def change_password_view(request):
     context = {
         'form': form
     }
-    return render(request, 'profiles/settings/change_password.html', context)
+    return render(request, 'profiles/settings_templates/change_password.html', context)

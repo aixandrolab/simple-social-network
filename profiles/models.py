@@ -58,7 +58,7 @@ class Profile(models.Model):
         self.save()
 
     def disable_2fa(self):
-        self.two_fa_secret = None,
+        self.two_fa_secret = None
         self.is_2fa_active = False
         self.backup_codes = []
         self.save()

@@ -23,4 +23,4 @@ def settings_view(request):
     context = {
         'form': form
     }
-    return render(request, 'profiles/settings/settings.html', context)
+    return render(request, 'profiles/settings_templates/settings.html', context)

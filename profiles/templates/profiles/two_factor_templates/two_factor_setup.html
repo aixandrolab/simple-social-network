@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Setup 2FA{% endblock %}
+
+{% block content %}
+<div class="ui container" style="margin-top: 50px;">
+    <div class="ui centered grid">
+        <div class="ten wide column" style="box-shadow: 0 0 5px darkorange">
+            <div class="ui segments">
+                <div class="ui secondary segment">
+                    <h2 class="ui center aligned header">
+                        <i class="qrcode icon"></i>
+                        Setup Two-Factor Authentication
+                    </h2>
+                </div>
+
+                <div class="ui segment">
+                    <div class="ui info message">
+                        <p>Step 1:<br> Install an authenticator app like Smart 2FA Manager, Google Authenticator, Microsoft Authenticator, or Authy.</p>
+                    </div>
+
+                    <div class="ui center aligned basic segment">
+                        <h4 class="ui header">Step 2: Scan this QR code</h4>
+                        <img src="data:image/png;base64,{{ qr_code }}" alt="QR Code" class="ui centered image" style="max-width: 250px; padding: 10px; background: white;">
+                        <div class="ui message">
+                            <p>Or enter this secret manually: <code>{{ secret }}</code></p>
+                        </div>
+                    </div>
+
+                    <form method="post" id="twoFactorSetupForm" class="ui form">
+                        {% csrf_token %}
+                        <div class="field">
+                            <label>Step 3: Enter verification code</label>
+                            <input type="text"
+                                   name="verification_code"
+                                   id="id_verification_code"
+                                   placeholder="Enter 6-digit code"
+                                   maxlength="6"
+                                   autocomplete="off"
+                                   required
+                                   style="font-size: 1.5rem; text-align: center; letter-spacing: 5px; font-family: monospace;">
+                            {% if form.verification_code.errors %}
+                                <div class="ui negative message">
+                                    {{ form.verification_code.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="ui center aligned basic segment">
+                            <button type="submit" class="ui primary button" id="verifyBtn">
+                                <i class="shield icon"></i>
+                                Verify and Enable 2FA
+                            </button>
+                            <a href="{% url 'profiles:two_factor_manage' %}" class="ui button">
+                                Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('twoFactorSetupForm');
+    const verifyBtn = document.getElementById('verifyBtn');
+    let formSubmitted = false;
+
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            if (formSubmitted) {
+                e.preventDefault();
+                return false;
+            }
+
+            const code = document.getElementById('id_verification_code').value.trim();
+
+            if (!code) {
+                e.preventDefault();
+                alert('Please enter the verification code');
+                return false;
+            }
+
+            if (code.length !== 6) {
+                e.preventDefault();
+                alert('Verification code must be 6 digits');
+                return false;
+            }
+
+            if (!/^\d+$/.test(code)) {
+                e.preventDefault();
+                alert('Verification code must contain only digits');
+                return false;
+            }
+
+            formSubmitted = true;
+            verifyBtn.classList.add('loading');
+            verifyBtn.disabled = true;
+
+            return true;
+        });
+    }
+});
+</script>
+{% endblock %}

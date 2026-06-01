@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Disable 2FA{% endblock %}
+
+{% block content %}
+<div class="ui container" style="margin-top: 50px;">
+    <div class="ui centered grid">
+        <div class="eight wide column" style="box-shadow: 0 0 5px darkorange">
+            <div class="ui segments">
+                <div class="ui segment">
+                    <h2 class="ui center aligned header">
+                        <i class="warning sign icon"></i>
+                        Disable Two-Factor Authentication
+                    </h2>
+                </div>
+                
+                <div class="ui segment">
+                    <div class="ui warning message">
+                        <p>Warning! Disabling 2FA will make your account less secure.
+                        Are you sure you want to continue?</p>
+                    </div>
+                    
+                    <form method="post" class="ui form">
+                        {% csrf_token %}
+                        <div class="field">
+                            <label>Enter your password to confirm</label>
+                            {{ form.password }}
+                            {% if form.password.errors %}
+                                <div class="ui negative message">
+                                    {{ form.password.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="ui center aligned basic segment">
+                            <button type="submit" class="ui red button">
+                                <i class="trash icon"></i>
+                                Yes, Disable 2FA
+                            </button>
+                            <a href="{% url 'profiles:two_factor_manage' %}" class="ui button">
+                                Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

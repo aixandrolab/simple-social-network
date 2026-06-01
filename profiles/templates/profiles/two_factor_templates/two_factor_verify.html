@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}2FA Verification{% endblock %}
+
+{% block content %}
+<div class="ui container" style="margin-top: 50px;">
+    <div class="ui centered grid">
+        <div class="eight wide column" style="box-shadow: 0 0 5px darkorange">
+            <div class="ui segments">
+                <div class="ui secondary segment">
+                    <h2 class="ui center aligned header">
+                        <i class="shield icon"></i>
+                        Two-Factor Authentication
+                    </h2>
+                </div>
+
+                <div class="ui segment">
+                    <p class="ui center aligned">Please enter the verification code from your authenticator app or a backup code.</p>
+
+                    <form method="post" id="twoFactorVerifyForm" class="ui form">
+                        {% csrf_token %}
+                        <div class="field">
+                            <label>Verification Code</label>
+                            <input type="text"
+                                   name="code"
+                                   id="id_code"
+                                   placeholder="Enter 6-digit code or backup code"
+                                   autocomplete="off"
+                                   maxlength="8"
+                                   autofocus
+                                   required
+                                   style="font-size: 1.3rem; text-align: center; letter-spacing: 3px; font-family: monospace;">
+                            <div class="ui info message" style="margin-top: 10px;">
+                                <p>Enter 6-digit code from authenticator app or 8-character backup code</p>
+                            </div>
+                            {% if form.code.errors %}
+                                <div class="ui negative message">
+                                    {{ form.code.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        {% if remaining_attempts is not None %}
+                            <div class="ui {% if remaining_attempts <= 1 %}warning{% else %}info{% endif %} message">
+                                <p>
+                                    Attempts remaining: {{ remaining_attempts }} of {{ max_attempts }}
+                                </p>
+                                {% if remaining_attempts == 1 %}
+                                    <p>⚠️ Last attempt!</p>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+
+                        {% if failed_attempts > 0 %}
+                            <div class="ui compact message">
+                                <p><i class="exclamation triangle icon"></i> Failed attempts: {{ failed_attempts }} of {{ max_attempts }}</p>
+                            </div>
+                        {% endif %}
+
+                        <div class="ui center aligned basic segment">
+                            <button type="submit" class="ui primary button" id="verifyBtn">
+                                <i class="checkmark icon"></i>
+                                Verify
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="ui modal" id="loadingModal">
+    <div class="ui icon header">
+        <i class="circle notched loading icon"></i>
+        Please Wait
+    </div>
+    <div class="content">
+        <div class="ui center aligned">
+            <p id="loadingMessage">Verifying your code...</p>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('twoFactorVerifyForm');
+    const verifyBtn = document.getElementById('verifyBtn');
+    const codeInput = document.getElementById('id_code');
+    let formSubmitted = false;
+
+    if (codeInput) {
+        codeInput.focus();
+    }
+
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            if (formSubmitted) {
+                e.preventDefault();
+                return false;
+            }
+
+            const code = codeInput.value.trim();
+
+            if (!code) {
+                e.preventDefault();
+                alert('Please enter your verification code');
+                return false;
+            }
+
+            if (code.length === 6 && !/^\d+$/.test(code)) {
+                e.preventDefault();
+                alert('TOTP code must contain only digits (0-9)');
+                return false;
+            }
+
+            if (code.length === 8 && !/^[A-Z0-9]+$/.test(code)) {
+                e.preventDefault();
+                alert('Backup code must contain only uppercase letters and numbers');
+                return false;
+            }
+
+            formSubmitted = true;
+            verifyBtn.classList.add('loading');
+            verifyBtn.disabled = true;
+
+            if (code.length === 8) {
+                $('#loadingModal').find('#loadingMessage').text('Verifying backup code...');
+            } else {
+                $('#loadingModal').find('#loadingMessage').text('Verifying authentication code...');
+            }
+
+            $('#loadingModal').modal({
+                closable: false,
+                onApprove: function() {
+                    return true;
+                }
+            }).modal('show');
+
+            return true;
+        });
+
+        if (codeInput) {
+            codeInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    form.dispatchEvent(new Event('submit'));
+                }
+            });
+        }
+    }
+});
+</script>
+{% endblock %}
