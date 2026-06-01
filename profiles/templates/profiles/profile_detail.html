@@ -2,6 +2,31 @@
 
 {% block title %}{{ profile.user.username }}'s profile{% endblock %}
 
+{% block css %}
+    <style>
+        .modal .close.icon {
+            color: orange !important;
+        }
+        .ui.modal > .close:hover {
+            color: #ffa500 !important;
+        }
+        .ui.modal .actions {
+            background: black !important;
+        }
+        .field input {
+            background: #333 !important;
+            color: orange !important;
+        }
+        .field input::file-selector-button {
+            background: orange;
+            color: black;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+{% endblock %}
+
 {% block content %}
 <div class="ui container">
     <div class="ui center aligned segment" style="background: none; border: none; box-shadow: none;">
@@ -21,9 +46,18 @@
     <div class="ui grid">
         <div class="four wide computer sixteen wide mobile column customcard">
             <div class="ui card" style="box-shadow: 0 0 5px 0 darkorange;">
-                <div class="image">
-                    <img src="{{ profile.avatar_url }}" alt="{{ profile.full_name }}">
-                </div>
+                {% if request.user.id == profile.user.id %}
+                    <div class="image" style="cursor: pointer;" id="avatarTrigger">
+                        <img src="{{ profile.avatar_url }}" alt="{{ profile.full_name }}">
+                    </div>
+                    <div class="extra content" style="text-align: center; color: darkorange; font-size: 0.85em;">
+                        <i class="arrow up icon"></i> Click on avatar to change <i class="arrow up icon"></i>
+                    </div>
+                {% else %}
+                    <div class="image" style="cursor: pointer;">
+                        <img src="{{ profile.avatar_url }}" alt="{{ profile.full_name }}">
+                    </div>
+                {% endif %}
                 <div class="content">
                     <div class="header">{{ profile.full_name|default:profile.user.username }}</div>
                     <div class="meta">@{{ profile.user.username }}</div>
@@ -108,4 +142,44 @@
         </div>
     </div>
 </div>
+
+<div class="ui mini modal" id="avatarModal" style="background: black;">
+    <i class="close icon" style="color: orange;"></i>
+    <div class="header" style="background: black; color: orange; border-bottom: 1px solid orange;">
+        Upload Avatar
+    </div>
+    <div class="content" style="background: black;">
+        <form id="avatarUploadForm" method="POST" action="{% url 'profiles:upload_image' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="ui form">
+                <div class="field">
+                    <label style="color: orange;">Choose your new avatar</label>
+                    <input type="file" name="avatar" id="avatarInput" accept="image/*" style="color: orange;">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="actions" style="background: black; border-top: 1px solid orange;">
+        <div class="ui cancel button" style="background: #333; color: orange;">Cancel</div>
+        <div class="ui orange button" id="uploadBtn">Upload</div>
+    </div>
+</div>
+
+{% if request.user.id == profile.user.id %}
+    <script>
+        document.getElementById('avatarTrigger').addEventListener('click', function() {
+            $('#avatarModal').modal('show');
+        });
+
+        document.getElementById('uploadBtn').addEventListener('click', function() {
+            const fileInput = document.getElementById('avatarInput');
+            if (fileInput.files.length > 0) {
+                document.getElementById('avatarUploadForm').submit();
+            } else {
+                alert('Please select an image first.');
+            }
+        });
+    </script>
+{% endif %}
+
 {% endblock %}

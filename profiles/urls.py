@@ -5,6 +5,7 @@ from django.urls import path
 from profiles.views.auth_views.logout_view import logout_view
 from profiles.views.profile_views.profile_detail_view import profile_detail_view
 from profiles.views.profile_views.profile_search_view import profile_search_view
+from profiles.views.profile_views.upload_image_view import upload_image_view
 from profiles.views.settings_views.change_password_view import change_password_view
 from profiles.views.settings_views.settings_view import settings_view
 from profiles.views.two_factor_views.two_factor_backup_codes_view import two_factor_backup_codes_view
@@ -13,11 +14,13 @@ from profiles.views.two_factor_views.two_factor_manage_view import two_factor_ma
 from profiles.views.two_factor_views.two_factor_setup_view import two_factor_setup_view
 from profiles.views.two_factor_views.two_factor_verify_view import two_factor_verify_view
 
+
 app_name = 'profiles'
 
 urlpatterns = [
     path('detail/<str:slug>/', profile_detail_view, name='profile_detail'),
     path('search/', profile_search_view, name='profile_search'),
+    path('upload-image/', upload_image_view, name='upload_image'),
 
     path('logout/', logout_view, name='logout'),
 
