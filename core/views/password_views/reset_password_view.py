@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.cache import never_cache
 
 from core.forms.reset_password import ResetPasswordForm
-from profiles.models import PasswordResetToken
+from profiles.models.password_reset_token_model import PasswordResetToken
 
 
 @never_cache

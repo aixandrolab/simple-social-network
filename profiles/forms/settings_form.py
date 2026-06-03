@@ -1,6 +1,6 @@
 from django import forms
 
-from profiles.models import Profile
+from profiles.models.profile_model import Profile
 
 
 class SettingsForm(forms.ModelForm):

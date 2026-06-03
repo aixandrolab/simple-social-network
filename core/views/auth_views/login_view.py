@@ -3,7 +3,6 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 
 from core.forms.login_form import LoginForm
-from profiles.models import Profile
 
 
 def login_view(request):

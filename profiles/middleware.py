@@ -4,7 +4,7 @@ from django.core.cache import cache
 from django.utils import timezone
 from django.utils.deprecation import MiddlewareMixin
 
-from profiles.models import Profile
+from profiles.models.profile_model import Profile
 
 
 class UpdateLastActivityMiddleware(MiddlewareMixin):

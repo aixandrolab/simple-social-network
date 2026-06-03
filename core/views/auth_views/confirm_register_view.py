@@ -3,7 +3,7 @@ from django.shortcuts import redirect, get_object_or_404
 
 from django.views.decorators.cache import never_cache
 
-from profiles.models import EmailVerificationToken
+from profiles.models.email_verification_token_model import EmailVerificationToken
 
 
 @never_cache

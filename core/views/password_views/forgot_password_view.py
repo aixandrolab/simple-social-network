@@ -6,7 +6,7 @@ from django.urls import reverse
 
 from core.forms.forgot_password import ForgotPasswordForm
 from core.services.email_service import Email
-from profiles.models import PasswordResetToken
+from profiles.models.password_reset_token_model import PasswordResetToken
 
 
 def forgot_password_view(request):

@@ -5,7 +5,7 @@ from django.urls import reverse
 
 from core.forms.register_form import RegisterForm
 from core.services.email_service import Email
-from profiles.models import EmailVerificationToken
+from profiles.models.email_verification_token_model import EmailVerificationToken
 
 
 

@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
 from profiles.forms.settings_form import SettingsForm
-from profiles.models import Profile
+from profiles.models.profile_model import Profile
 
 
 @login_required()

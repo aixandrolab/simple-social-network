@@ -5,7 +5,7 @@ from django.shortcuts import redirect
 from django.urls import reverse
 
 from core.services.email_service import Email
-from profiles.models import PasswordResetToken
+from profiles.models.password_reset_token_model import PasswordResetToken
 
 
 def resend_forgot_password_view(request):
