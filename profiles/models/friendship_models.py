@@ -1,18 +1,21 @@
-from django.contrib.auth.models import User
 from django.db import models
 
+from profiles.models import Profile
 
 STATUS_CHOICES = [
     ('PENDING', 'PENDING'),
-    ('CONFIRMED', 'CONFIRMED'),
+    ('ACCEPTED', 'ACCEPTED'),
     ('REJECTED', 'REJECTED'),
 ]
 
+class FriendshipStatus(models.TextChoices):
+    PENDING = 'pending', 'Pending'
+    ACCEPTED = 'accepted', 'Accepted'
+    REJECTED = 'rejected', 'Rejected'
 
 class Friendship(models.Model):
-
-    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sender')
-    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='receiver')
+    sender = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='sent_friendships')
+    receiver = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='received_friendships')
     status = models.CharField(
         max_length=10,
         choices=STATUS_CHOICES,
@@ -42,11 +45,11 @@ class Friendship(models.Model):
         return f'{self.sender} -> {self.receiver} ({self.status})'
 
     def accept(self):
-        self.status = 'CONFIRMED'
+        self.status = FriendshipStatus.ACCEPTED
         self.save()
 
     def reject(self):
-        self.status = 'REJECTED'
+        self.status = FriendshipStatus.REJECTED
         self.save()
 
 

@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Incoming friendship requests
+{% endblock %}
+
+{% block content %}
+<div class="ui container">
+
+    <div class="ui center aligned segment" style="background: none; border: none; box-shadow: none;">
+        <h1 class="ui orange header">
+            <i class="user plus icon"></i>
+            Incoming friendship requests
+            <sup class="ui orange circular label">{{ requests_count }}</sup>
+        </h1>
+        <div class="ui divider"></div>
+    </div>
+
+    <div class="ui three item orange menu">
+        <a href="{% url 'profiles:friends_list' request.user.profile.user.username %}" class="item">
+            <i class="users icon"></i>
+            Friends
+            <div class="ui orange circular label">{{ friends_count }}</div>
+        </a>
+        <a href="{% url 'profiles:incoming_friendship_requests' %}" class="active item">
+            <i class="user plus icon"></i>
+            Incoming
+            <div class="ui orange circular label">{{ requests_count }}</div>
+        </a>
+        <a href="{% url 'profiles:outgoing_friendship_reqeusts' %}" class="item">
+            <i class="paper plane outline icon"></i>
+            Outgoing
+            <div class="ui orange circular label">{{ outgoing_count }}</div>
+        </a>
+    </div>
+
+    {% if requests_list %}
+        <div class="ui segment" style="box-shadow: 0 0 5px 0 darkorange; margin-top: 20px;">
+            <div class="ui divided items">
+                {% for request in page_obj %}
+                    <div class="item">
+                        <div class="ui small image">
+                            <img src="{{ request.sender.avatar_url }}" alt="{{ request.sender.full_name }}" style="object-fit: cover;">
+                        </div>
+                        <div class="content">
+                            <div class="header">
+                                <a href="{% url 'profiles:profile_detail' request.sender.slug %}" style="color: orange;">
+                                    {{ request.sender.user.username }}
+                                </a>
+                                {% if request.sender.is_online %}
+                                    <i class="green circle icon" data-tooltip="Online" data-position="top center"></i>
+                                {% else %}
+                                    <i class="grey circle icon" data-tooltip="Offline" data-position="top center"></i>
+                                {% endif %}
+                            </div>
+                            <div class="meta">
+                                <span class="username">@{{ request.sender.user.username }}</span>
+                            </div>
+                            <div class="extra">
+                                <div class="ui buttons">
+                                    <a href="{% url 'profiles:accept_friendship_request' request.id %}"
+                                       onclick="return confirm('Are you sure you want to accept this friend request?')"
+                                       class="ui green button">
+                                        <i class="check icon"></i>
+                                        Accept
+                                    </a>
+                                    <a href="{% url 'profiles:reject_friendship_request' request.id %}"
+                                       onclick="return confirm('Are you sure you want to reject this friend request?')"
+                                       class="ui red button">
+                                        <i class="close icon"></i>
+                                        Reject
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        {% if page_obj.has_other_pages %}
+            {% include 'paginator.html' %}
+        {% endif %}
+    {% else %}
+        <div class="ui warning message" style="box-shadow: 0 0 5px 0 darkorange;">
+            <i class="info circle icon"></i>
+            No incoming friend requests found.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

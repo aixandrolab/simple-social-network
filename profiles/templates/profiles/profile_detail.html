@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}{{ profile.user.username }}'s profile{% endblock %}
 
@@ -24,6 +25,16 @@
             padding: 5px 10px;
             cursor: pointer;
         }
+        .friend-action-buttons {
+            margin-top: 10px;
+        }
+        .friend-action-buttons .ui.button {
+            margin-bottom: 8px;
+            width: 100%;
+        }
+        .customcard .ui.button {
+            margin-top: 5px;
+        }
     </style>
 {% endblock %}
 
@@ -46,7 +57,7 @@
     <div class="ui grid">
         <div class="four wide computer sixteen wide mobile column customcard">
             <div class="ui card" style="box-shadow: 0 0 5px 0 darkorange;">
-                {% if request.user.id == profile.user.id %}
+                {% if request.user.profile == profile %}
                     <div class="image" style="cursor: pointer;" id="avatarTrigger">
                         <img src="{{ profile.avatar_url }}" alt="{{ profile.full_name }}">
                     </div>
@@ -54,7 +65,7 @@
                         <i class="arrow up icon"></i> Click on avatar to change <i class="arrow up icon"></i>
                     </div>
                 {% else %}
-                    <div class="image" style="cursor: pointer;">
+                    <div class="image">
                         <img src="{{ profile.avatar_url }}" alt="{{ profile.full_name }}">
                     </div>
                 {% endif %}
@@ -63,6 +74,76 @@
                     <div class="meta">@{{ profile.user.username }}</div>
                 </div>
             </div>
+
+            {% if request.user.profile != profile %}
+                <div class="friend-action-buttons">
+                    {% if friendship %}
+                        {% if friendship.status == 'CONFIRMED' or friendship.status == 'confirmed' or friendship.status == 'accepted' %}
+                            <div class="ui green button" style="width: 100%;" disabled>
+                                <i class="check icon"></i> Friends
+                            </div>
+                            <a href="{% url 'profiles:delete_friendship' profile.user.id %}"
+                               onclick="return confirm('Are you sure you want to remove {{ profile.user.username }} from your friends?')"
+                               class="ui red button">
+                                <i class="trash icon"></i> Remove friend
+                            </a>
+                        {% elif friendship.status == 'PENDING' or friendship.status == 'pending' %}
+                            {% if friendship.sender == request.user.profile %}
+                                <div class="ui orange button" style="width: 100%;" disabled>
+                                    <i class="clock icon"></i> Request sent
+                                </div>
+                                <a href="{% url 'profiles:cancel_friendship_request' friendship.id %}"
+                                   onclick="return confirm('Cancel friend request to {{ profile.user.username }}?')"
+                                   class="ui grey button">
+                                    <i class="times icon"></i> Cancel request
+                                </a>
+                            {% elif friendship.receiver == request.user.profile %}
+                                <div class="extra content" style="text-align: center; color: darkorange; font-size: 0.85em;">
+                                    You have a friend request from {{ friendship.sender.user.username }}<br>  <i class="arrow down icon"></i>Accept or reject? <i class="arrow down icon"></i>
+                                </div>
+                                <div class="ui two buttons" style="width: 100%;">
+                                    <a href="{% url 'profiles:accept_friendship_request' friendship.id %}"
+                                       onclick="return confirm('Accept friend request from {{ profile.user.username }}?')"
+                                       class="ui green button">
+                                        <i class="check icon"></i> Accept
+                                    </a>
+                                    <a href="{% url 'profiles:reject_friendship_request' friendship.id %}"
+                                       onclick="return confirm('Reject friend request from {{ profile.user.username }}?')"
+                                       class="ui red button">
+                                        <i class="close icon"></i> Reject
+                                    </a>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    {% else %}
+                        <a href="{% url 'profiles:send_friendship_request' profile.id %}"
+                           class="ui green button" style="width: 100%;">
+                            <i class="user plus icon"></i> Send friend request
+                        </a>
+                    {% endif %}
+                </div>
+                <div style="margin-top: 10px;">
+                    <a class="ui primary button" href="{% url 'profiles:friends_list' profile.user.username %}" style="width: 100%;">
+                        <i class="users icon"></i> Friends list
+                    </a>
+                </div>
+            {% else %}
+                <div style="margin-top: 10px;">
+                    <a class="ui primary button" href="{% url 'profiles:friends_list' profile.user.username %}" style="width: 100%;">
+                        <i class="users icon"></i> My friends
+                    </a>
+                </div>
+                <div style="margin-top: 10px;">
+                    <a class="ui orange button" href="{% url 'profiles:incoming_friendship_requests' %}" style="width: 100%;">
+                        <i class="user plus icon"></i> Incoming requests
+                    </a>
+                </div>
+                <div style="margin-top: 10px;">
+                    <a class="ui brown button" href="{% url 'profiles:outgoing_friendship_reqeusts' %}" style="width: 100%;">
+                        <i class="paper plane icon"></i> Outgoing requests
+                    </a>
+                </div>
+            {% endif %}
         </div>
 
         <div class="twelve wide computer sixteen wide mobile column">
@@ -119,11 +200,18 @@
                     <div class="item">
                         <i class="shield icon"></i>
                         <div class="content">
-                            <span class="header">2fa</span>
+                            <span class="header">2FA</span>
                             {% if profile.is_2fa_active %}
-                                <div class="ui green description">Two-Factor authentication is enabled! Your account is safe</div>
+                                <div class="ui green description">
+                                    <i class="check circle icon"></i> Two-Factor authentication is enabled! Your account is safe
+                                </div>
+                            {% elif request.user.profile == profile %}
+                                <div class="description">
+                                    <i class="warning sign icon"></i> 2FA is not enabled!
+                                    <a href="{% url 'profiles:two_factor_setup' %}">Enable it</a> as soon as possible!
+                                </div>
                             {% else %}
-                                <div class="description">2FA is not enabled! Please <a href="{% url 'profiles:two_factor_setup' %}">enable it</a> as soon as possible!</div>
+                                <div class="description">Not enabled</div>
                             {% endif %}
                         </div>
                     </div>
@@ -165,7 +253,7 @@
     </div>
 </div>
 
-{% if request.user.id == profile.user.id %}
+{% if request.user.profile == profile %}
     <script>
         document.getElementById('avatarTrigger').addEventListener('click', function() {
             $('#avatarModal').modal('show');

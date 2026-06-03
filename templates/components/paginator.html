@@ -1,0 +1,49 @@
+{% if page_obj.has_other_pages %}
+<div class="ui center aligned basic segment">
+    <div class="ui pagination menu">
+        {% if page_obj.has_previous %}
+            <a class="item" href="?page=1">
+                <i class="angle double left icon"></i>
+                First
+            </a>
+            <a class="item" href="?page={{ page_obj.previous_page_number }}">
+                <i class="angle left icon"></i>
+                Prev
+            </a>
+        {% else %}
+            <div class="disabled item">
+                <i class="angle double left icon"></i>
+                First
+            </div>
+            <div class="disabled item">
+                <i class="angle left icon"></i>
+                Prev
+            </div>
+        {% endif %}
+
+        <div class="active item">
+            {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+        </div>
+
+        {% if page_obj.has_next %}
+            <a class="item" href="?page={{ page_obj.next_page_number }}">
+                Next
+                <i class="angle right icon"></i>
+            </a>
+            <a class="item" href="?page={{ page_obj.paginator.num_pages }}">
+                Last
+                <i class="angle double right icon"></i>
+            </a>
+        {% else %}
+            <div class="disabled item">
+                Next
+                <i class="angle right icon"></i>
+            </div>
+            <div class="disabled item">
+                Last
+                <i class="angle double right icon"></i>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endif %}

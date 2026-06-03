@@ -18,6 +18,18 @@
                 <div class="divider">
                     <hr>
                 </div>
+                <a class="item" href="{% url 'profiles:friends_list' request.user.username %}">
+                    <i class="user icon"></i> Friends
+                </a>
+                <a class="item" href="{% url 'profiles:incoming_friendship_requests' %}">
+                    <i class="user icon"></i> Incoming requests
+                </a>
+                <a class="item" href="{% url 'profiles:outgoing_friendship_reqeusts' %}">
+                    <i class="user icon"></i> Outgoing requests
+                </a>
+                <div class="divider">
+                    <hr>
+                </div>`
                 <a class="item" href="{% url 'profiles:settings' %}">
                     <i class="wrench icon"></i> Settings
                 </a>
