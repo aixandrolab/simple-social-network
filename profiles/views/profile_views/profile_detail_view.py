@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
+from profiles.models.friendship_models import Friendship
 from profiles.models.profile_model import Profile
 from profiles.services import FriendshipService
 
@@ -14,8 +15,13 @@ def profile_detail_view(request, slug):
     else:
         friendship = None
 
+    friends_requests = FriendshipService.get_incoming_requests(request.user.profile)
+    friends_requests_count = FriendshipService.get_incoming_requests_count(request.user.profile)
+
     context = {
         'profile': profile,
         'friendship': friendship,
+        'friends_requests': friends_requests,
+        'friends_requests_count': friends_requests_count,
     }
     return render(request, 'profiles/profile_detail.html', context)

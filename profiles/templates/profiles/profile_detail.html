@@ -133,16 +133,6 @@
                         <i class="users icon"></i> My friends
                     </a>
                 </div>
-                <div style="margin-top: 10px;">
-                    <a class="ui orange button" href="{% url 'profiles:incoming_friendship_requests' %}" style="width: 100%;">
-                        <i class="user plus icon"></i> Incoming requests
-                    </a>
-                </div>
-                <div style="margin-top: 10px;">
-                    <a class="ui brown button" href="{% url 'profiles:outgoing_friendship_reqeusts' %}" style="width: 100%;">
-                        <i class="paper plane icon"></i> Outgoing requests
-                    </a>
-                </div>
             {% endif %}
         </div>
 
@@ -227,7 +217,14 @@
                     {% endif %}
                 </div>
             </div>
+            {% if friends_requests and request.user.profile == profile %}
+                <div class="ui blue message" role="alert">
+                    <i class="close icon"></i>
+                    You have a {{ friends_requests_count }} friendship requests! <a href="{% url 'profiles:incoming_friendship_requests' %}">Check</a> them out!
+                </div>
+            {% endif %}
         </div>
+
     </div>
 </div>
 
