@@ -14,8 +14,14 @@
             Incoming friendship requests
             <sup class="ui orange circular label">{{ requests_count }}</sup>
         </h1>
-        <div class="ui divider"></div>
     </div>
+    <div class="ui divider"></div>
+    <a href="{% url 'profiles:profile_detail' request.user.profile.slug %}"
+       class="ui primary button">
+        <i class="arrow left icon"></i>
+        Profile
+    </a>
+    <div class="ui divider"></div>
 
     <div class="ui three item orange menu">
         <a href="{% url 'profiles:friends_list' request.user.profile.user.username %}" class="item">

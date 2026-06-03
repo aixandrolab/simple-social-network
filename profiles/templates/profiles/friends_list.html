@@ -23,8 +23,14 @@
                 <sup class="ui orange circular label">{{ friends_count }}</sup>
             </div>
         </h1>
-        <div class="ui divider"></div>
     </div>
+    <div class="ui divider"></div>
+    <a href="{% url 'profiles:profile_detail' request.user.profile.slug %}"
+       class="ui primary button">
+        <i class="arrow left icon"></i>
+        Profile
+    </a>
+    <div class="ui divider"></div>
 
     {% if request.user.profile == target_user %}
         <div class="ui three item orange menu">
