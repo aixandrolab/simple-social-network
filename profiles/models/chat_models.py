@@ -1,14 +1,20 @@
 from django.db import models
 from django.utils import timezone
 
-from profiles.managers.chat_manager import ChatQuerySet
 from profiles.models import Profile
 
 
 class Chat(models.Model):
-    participants = models.ManyToManyField(
+    user1 = models.ForeignKey(
         Profile,
-        related_name="chats",
+        on_delete=models.CASCADE,
+        related_name="user1_participant",
+        db_index=True
+    )
+    user2 = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE,
+        related_name="user2_participant",
         db_index=True
     )
     created_at = models.DateTimeField(
@@ -19,23 +25,14 @@ class Chat(models.Model):
         auto_now=True,
         db_index=True
     )
-    is_group = models.BooleanField(
-        default=False,
-    )
     name = models.CharField(
         max_length=255,
         null=True,
         blank=True,
     )
 
-    objects = ChatQuerySet.as_manager()
-
     class Meta:
         ordering = ["-created_at"]
-        indexes = [
-            models.Index(fields=["updated_at"]),
-            models.Index(fields=["is_group", "-updated_at"]),
-        ]
 
     def is_archived(self, user):
         return self.user_statuses.filter(

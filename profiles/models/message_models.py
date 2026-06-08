@@ -2,7 +2,6 @@ from django.core.exceptions import PermissionDenied
 from django.db import models
 from django.utils import timezone
 
-from profiles.managers.chat_message_manager import ChatMessageManager
 from profiles.models import Chat, Profile
 
 
@@ -24,9 +23,6 @@ class ChatMessage(models.Model):
     is_read = models.BooleanField(default=False)
     is_deleted = models.BooleanField(default=False)
     edited_at = models.DateTimeField(null=True, blank=True)
-
-    objects = ChatMessageManager()
-    all_objects = models.Manager()
 
     class Meta:
         ordering = ["timestamp"]
