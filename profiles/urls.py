@@ -3,6 +3,7 @@ from django.conf.urls.static import static
 from django.urls import path
 
 from profiles.views.auth_views.logout_view import logout_view
+from profiles.views.chat_views.active_chats_view import active_chats_view
 from profiles.views.friendship_views.accept_friendship_request_view import accept_friendship_request_view
 from profiles.views.friendship_views.cancel_friendship_request_view import cancel_friendship_request_view
 from profiles.views.friendship_views.delete_friendship_view import delete_friendship_view
@@ -54,6 +55,8 @@ urlpatterns = [
     path('outgoing/friendship-requests/', outgoing_friendship_requests_view,
          name='outgoing_friendship_reqeusts'),
     path('@<str:username>/', friends_list_view, name='friends_list'),
+
+    path('chats/active/', active_chats_view, name='active_chats'),
 
 ]
 

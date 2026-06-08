@@ -18,6 +18,12 @@
                 <div class="divider">
                     <hr>
                 </div>
+                <a class="item" href="{% url 'profiles:active_chats' %}">
+                    <i class="envelope icon"></i> Active chats
+                </a>
+                <div class="divider">
+                    <hr>
+                </div>
                 <a class="item" href="{% url 'profiles:friends_list' request.user.username %}">
                     <i class="users icon"></i> Friends list
                 </a>
