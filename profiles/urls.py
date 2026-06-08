@@ -5,6 +5,7 @@ from django.urls import path
 from profiles.views.auth_views.logout_view import logout_view
 from profiles.views.chat_views.active_chats_view import active_chats_view
 from profiles.views.chat_views.chat_detail_view import chat_detail_view
+from profiles.views.chat_views.delete_message_view import delete_message_view
 from profiles.views.chat_views.send_message_view import send_message_view
 from profiles.views.friendship_views.accept_friendship_request_view import accept_friendship_request_view
 from profiles.views.friendship_views.cancel_friendship_request_view import cancel_friendship_request_view
@@ -60,8 +61,8 @@ urlpatterns = [
 
     path('chats/active/', active_chats_view, name='active_chats'),
     path('chat/details/<int:chat_id>/', chat_detail_view, name='chat_detail'),
-    path('chat/send/message/<int:chat_id>/', send_message_view, name='send_message'),
-
+    path('chat/<int:chat_id>/send/message//', send_message_view, name='send_message'),
+    path('chat/<int:chat_id>/delete/message/<int:message_id>/', delete_message_view, name='delete_message'),
 ]
 
 if settings.DEBUG:

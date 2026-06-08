@@ -31,10 +31,6 @@ class ChatMessage(models.Model):
     def __str__(self):
         return f"{self.sender}: {self.content}"
 
-    def delete(self, *args, **kwargs):
-        self.is_deleted = True
-        self.save()
-
 
 class ChatMessageStatus(models.Model):
     message = models.ForeignKey(
@@ -49,19 +45,10 @@ class ChatMessageStatus(models.Model):
         related_name="message_statuses",
         db_index=True
     )
-    is_deleted_for_me = models.BooleanField(default=False)
     is_cleared = models.BooleanField(default=False)
     deleted_at = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         unique_together = ["message", "profile"]
-        indexes = [
-            models.Index(fields=["profile", "is_deleted_for_me"]),
-        ]
         verbose_name_plural = "chat message statuses"
         verbose_name = "chat message status"
-
-    def save(self, *args, **kwargs):
-        if self.is_deleted_for_me and not self.deleted_at:
-            self.deleted_at = timezone.now()
-        super().save(*args, **kwargs)
