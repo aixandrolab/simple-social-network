@@ -1,5 +1,6 @@
 from django.core.exceptions import PermissionDenied
 from django.db import models
+from django.db.models import Q, Model
 from django.utils import timezone
 
 from profiles.models import Chat, Profile
@@ -26,22 +27,9 @@ class ChatMessage(models.Model):
 
     class Meta:
         ordering = ["timestamp"]
-        indexes = [
-            models.Index(fields=["chat", "timestamp"]),
-            models.Index(fields=["sender", "is_read"]),
-            models.Index(fields=["chat", "is_read", "timestamp"]),
-            models.Index(fields=["chat", "is_deleted" , "is_read", "timestamp"]),
-        ]
-        verbose_name = "chat message"
-        verbose_name_plural = "chat messages"
 
     def __str__(self):
-        return f"{self.sender: {self.content[50]}}"
-
-    def save(self, *args, **kwargs):
-        if not self.chat.participants.filter(id=self.sender.id).exists():
-            raise PermissionDenied("User is not at chat.")
-        super().save(*args, **kwargs)
+        return f"{self.sender}: {self.content}"
 
     def delete(self, *args, **kwargs):
         self.is_deleted = True
