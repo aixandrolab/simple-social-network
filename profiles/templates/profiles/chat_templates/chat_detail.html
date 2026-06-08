@@ -70,7 +70,7 @@
         background: #2185d0;
         border-radius: 18px;
         border-bottom-right-radius: 4px;
-        padding: 10px 15px;
+        padding: 5px 7px;
         color: white;
         width: 100%;
         box-sizing: border-box;
@@ -247,7 +247,7 @@
                 <div class="participant-info">
                     <div class="participant-name">
                         {{ chat.user1.user.get_full_name|default:chat.user1.user.username }}
-                        {% if chat.user1.user == request.user %}
+                        {% if chat.user1.user.profile == request.user.profile %}
                             <span class="ui tiny label" style="margin-left: 5px;">You</span>
                         {% endif %}
                     </div>
@@ -269,7 +269,7 @@
                 <div class="participant-info">
                     <div class="participant-name">
                         {{ chat.user2.user.get_full_name|default:chat.user2.user.username }}
-                        {% if chat.user2.user == request.user %}
+                        {% if chat.user2.user.profile == request.user.profile %}
                             <span class="ui tiny label" style="margin-left: 5px;">You</span>
                         {% endif %}
                     </div>
@@ -301,7 +301,7 @@
             <div class="messages-scroll" id="messages-scroll">
                 {% for message in chat_messages %}
                     {% if not message.is_deleted %}
-                        {% if message.sender.user == request.user %}
+                        {% if message.sender.user.profile == request.user.profile %}
                             <div class="message-wrapper message-wrapper-right">
                                 <div class="message-bubble message-right">
                                     <div class="message-bubble-content">
