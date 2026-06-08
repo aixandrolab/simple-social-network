@@ -8,12 +8,13 @@
     .chat-container {
         display: flex;
         gap: 20px;
-        min-height: calc(100vh - 200px);
+        height: calc(100vh - 150px);
+        overflow: hidden;
     }
 
     .participants-sidebar {
         flex: 0 0 300px;
-        max-height: calc(100vh - 200px);
+        height: 100%;
         overflow-y: auto;
     }
 
@@ -21,7 +22,8 @@
         flex: 1;
         display: flex;
         flex-direction: column;
-        max-height: calc(100vh - 200px);
+        height: 100%;
+        overflow: hidden;
     }
 
     .messages-scroll {
@@ -31,11 +33,13 @@
         display: flex;
         flex-direction: column;
         gap: 15px;
+        min-height: 0;
     }
 
     .message-wrapper {
         display: flex;
         width: 100%;
+        flex-shrink: 0;
     }
 
     .message-wrapper-left {
@@ -47,7 +51,8 @@
     }
 
     .message-bubble {
-        max-width: 65%;
+        max-width: 70%;
+        min-width: 80px;
         position: relative;
     }
 
@@ -57,6 +62,8 @@
         border-bottom-left-radius: 4px;
         padding: 10px 15px;
         color: white;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .message-right .message-bubble-content {
@@ -65,6 +72,8 @@
         border-bottom-right-radius: 4px;
         padding: 10px 15px;
         color: white;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .message-sender-name {
@@ -78,6 +87,9 @@
         font-size: 1em;
         line-height: 1.4;
         word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: pre-wrap;
+        word-break: break-word;
     }
 
     .message-meta {
@@ -87,6 +99,7 @@
         gap: 8px;
         justify-content: flex-end;
         align-items: center;
+        flex-wrap: wrap;
     }
 
     .message-left .message-meta {
@@ -114,6 +127,7 @@
     .input-area {
         padding: 20px;
         border-top: 1px solid rgba(255, 255, 255, 0.1);
+        flex-shrink: 0;
     }
 
     .participant-avatar {
@@ -125,6 +139,8 @@
 
     .chat-message-input {
         resize: none;
+        max-height: 100px;
+        overflow-y: auto;
     }
 
     .participant-item {
@@ -143,12 +159,16 @@
 
     .participant-info {
         flex: 1;
+        min-width: 0;
     }
 
     .participant-name {
         color: white;
         font-weight: 600;
         margin-bottom: 4px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     .participant-status {
@@ -177,6 +197,27 @@
     .read-status {
         font-size: 0.85em;
     }
+
+    .ui.segment {
+        overflow: hidden;
+    }
+
+    .ui.form .field {
+        margin-bottom: 0;
+    }
+
+    .ui.action.input {
+        width: 100%;
+    }
+
+    .ui.fluid.action.input textarea {
+        border-radius: 4px 0 0 4px;
+    }
+
+    .ui.fluid.action.input button {
+        border-radius: 0 4px 4px 0;
+        white-space: nowrap;
+    }
 </style>
 {% endblock %}
 
@@ -184,7 +225,7 @@
 <div class="chat-container" style="box-shadow: 0 0 5px 0 darkorange">
 
     <div class="participants-sidebar">
-        <div class="ui segment" style="background: rgba(255, 255, 255, 0.05);">
+        <div class="ui segment" style="background: rgba(255, 255, 255, 0.05); height: 100%; overflow-y: auto;">
             <h3 class="ui inverted header">
                 <i class="users icon"></i>
                 <div class="content">
@@ -242,9 +283,9 @@
     </div>
 
     <div class="messages-area" style="box-shadow: 0 0 5px 0 darkorange">
-        <div class="ui segment" style="background: rgba(255, 255, 255, 0.05); flex: 1; display: flex; flex-direction: column; padding: 0;">
+        <div class="ui segment" style="background: rgba(255, 255, 255, 0.05); height: 100%; display: flex; flex-direction: column; padding: 0;">
 
-            <div class="ui secondary inverted menu" style="margin: 0; padding: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+            <div class="ui secondary inverted menu" style="margin: 0; padding: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); flex-shrink: 0;">
                 <div class="header item">
                     <i class="comment alternate icon"></i>
                     {{ chat.name|default:"Chat Room" }}
@@ -265,7 +306,7 @@
                                 <div class="message-bubble message-right">
                                     <div class="message-bubble-content">
                                         <div class="message-text">
-                                            {{ message.content }}
+                                            {{ message.content|linebreaksbr }}
                                         </div>
                                         <div class="message-meta">
                                             <span><i class="clock outline icon"></i> {{ message.timestamp|date:"H:i" }}</span>
@@ -284,11 +325,11 @@
                         {% else %}
                             <div class="message-wrapper message-wrapper-left">
                                 <div class="message-bubble message-left">
-                                    <div style="display: flex; align-items: flex-start;">
+                                    <div style="display: flex; align-items: flex-start; max-width: 100%;">
                                         {% if message.sender.avatar %}
                                             <img class="message-avatar" src="{{ message.sender.avatar.url }}" alt="{{ message.sender.user.username }}">
                                         {% else %}
-                                            <div class="ui circular placeholder" style="width: 32px; height: 32px;">
+                                            <div class="ui circular placeholder" style="width: 32px; height: 32px; flex-shrink: 0;">
                                                 <div class="image header"></div>
                                             </div>
                                         {% endif %}
@@ -297,7 +338,7 @@
                                                 {{ message.sender.user.get_full_name|default:message.sender.user.username }}
                                             </div>
                                             <div class="message-text">
-                                                {{ message.content }}
+                                                {{ message.content|linebreaksbr }}
                                             </div>
                                             <div class="message-meta">
                                                 <span><i class="clock outline icon"></i> {{ message.timestamp|date:"H:i, d M" }}</span>
@@ -327,7 +368,7 @@
             </div>
 
             <div class="input-area">
-                <form method="POST" action="" class="ui reply form">
+                <form method="POST" action="{% url 'profiles:send_message' chat.id %}" class="ui reply form">
                     {% csrf_token %}
                     <div class="field">
                         <div class="ui fluid action input">
@@ -369,7 +410,9 @@
             textarea.addEventListener('keydown', function(e) {
                 if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
-                    this.form.submit();
+                    if (this.value.trim()) {
+                        this.form.submit();
+                    }
                 }
             });
         }
