@@ -83,7 +83,7 @@
                                             <i class="archive icon"></i>
                                             Unarchive
                                         </a>
-                                        <a href=""
+                                        <a href="{% url 'profiles:delete_chat' chat.id %}"
                                            onclick="return confirm('Are you sure you want to delete this chat?')"
                                            class="ui red button">
                                             <i class="trash icon"></i>

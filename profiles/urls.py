@@ -3,6 +3,7 @@ from django.conf.urls.static import static
 from django.urls import path
 
 from profiles.views.auth_views.logout_view import logout_view
+from profiles.views.chat_views.delete_chat_view import delete_chat_view
 from profiles.views.chat_views.active_chats_view import active_chats_view
 from profiles.views.chat_views.archived_chats_view import archived_chats_view
 from profiles.views.chat_views.chat_detail_view import chat_detail_view
@@ -64,6 +65,7 @@ urlpatterns = [
     path('chats/active/', active_chats_view, name='active_chats'),
     path('chats/archived/', archived_chats_view, name='archived_chats'),
     path('chats/deleted/', deleted_chats_view, name='deleted_chats'),
+    path('chat/delete/<int:chat_id>/', delete_chat_view, name='delete_chat'),
     path('chat/details/<int:chat_id>/', chat_detail_view, name='chat_detail'),
     path('chat/<int:chat_id>/send/message/', send_message_view, name='send_message'),
     path('chat/<int:chat_id>/delete/message/<int:message_id>/', delete_message_view, name='delete_message'),

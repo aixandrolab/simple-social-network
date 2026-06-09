@@ -34,24 +34,6 @@ class Chat(models.Model):
     class Meta:
         ordering = ["-created_at"]
 
-    def is_archived(self, user):
-        return self.user_statuses.filter(
-            user=user,
-            is_archived=True
-        ).exists()
-
-    def is_deleted(self, user):
-        return self.user_statuses.filter(
-            user=user,
-            is_deleted=True
-        ).exists()
-
-    def is_muted(self, user):
-        return self.user_statuses.filter(
-            user=user,
-            is_muted=True
-        ).exists()
-
     def __str__(self):
         return str(f"{self.name}")
 
