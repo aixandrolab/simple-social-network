@@ -15,6 +15,11 @@ def archived_chats_view(request):
         chat_statuses__is_muted = False,
         chat_statuses__is_visible = True,
         chat_statuses__profile = request.user.profile,
+    ).select_related(
+        'user1',
+        'user1__user',
+        'user2',
+        'user2__user'
     )
     archived_chats_count = archived_chats.count()
     page = request.GET.get('page', 1)

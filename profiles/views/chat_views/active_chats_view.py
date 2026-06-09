@@ -15,7 +15,12 @@ def active_chats_view(request):
         chat_statuses__is_muted=False,
         chat_statuses__is_visible=True,
         chat_statuses__profile=request.user.profile,
-    ).prefetch_related('chat_statuses').select_related('user1', 'user2')
+    ).select_related(
+        'user1',
+        'user1__user',
+        'user2',
+        'user2__user'
+    )
     active_chat_list_count = active_chat_list.count()
     page = request.GET.get('page', 1)
     paginator = CachedCountPaginator(active_chat_list, 10, total_count=active_chat_list_count)

@@ -31,7 +31,7 @@
                 Archived
                 <div class="ui orange circular label">{{ archived_chats_count }}</div>
             </a>
-            <a href="#" class="item">
+            <a href="{% url 'profiles:deleted_chats' %}" class="item">
                 <i class="trash alternate icon"></i>
                 Deleted
             </a>

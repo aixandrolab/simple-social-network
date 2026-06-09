@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Active chats {% endblock %}
+{% block title %}Active chats{% endblock %}
 
 {% block content %}
     <div class="ui container">
@@ -31,7 +31,7 @@
                 <i class="archive icon"></i>
                 Archived
             </a>
-            <a href="#" class="item">
+            <a href="{% url 'profiles:deleted_chats' %}" class="item">
                 <i class="trash alternate icon"></i>
                 Deleted
             </a>
@@ -87,7 +87,7 @@
                                             <i class="archive icon"></i>
                                             Archive
                                         </a>
-                                        <a href=""
+                                        <a href="#"
                                            onclick="return confirm('Are you sure you want to delete this chat?')"
                                            class="ui red button">
                                             <i class="trash icon"></i>
