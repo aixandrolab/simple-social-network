@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block title %}Archived chats{% endblock %}
+
+{% block content %}
+    <div class="ui container">
+        <div class="ui center aligned segment" style="background: none; border: none; box-shadow: none;">
+            <h1 class="ui orange header">
+                <i class="envelope icon"></i>
+                <div class="content">
+                        Archived chats
+                    <sup class="ui orange circular label">{{ archived_chats_count }}</sup>
+                </div>
+            </h1>
+        </div>
+        <div class="ui divider"></div>
+        <a href="{% url 'profiles:profile_detail' request.user.profile.slug %}"
+           class="ui primary button">
+            <i class="arrow left icon"></i>
+            Profile
+        </a>
+        <div class="ui divider"></div>
+
+        <div class="ui three item orange menu">
+            <a href="{% url 'profiles:active_chats' %}" class="active item">
+                <i class="envelope icon"></i>
+                Active chats
+            </a>
+            <a href="{% url 'profiles:archived_chats' %}" class="item">
+                <i class="archive icon"></i>
+                Archived
+                <div class="ui orange circular label">{{ archived_chats_count }}</div>
+            </a>
+            <a href="#" class="item">
+                <i class="trash alternate icon"></i>
+                Deleted
+            </a>
+        </div>
+
+        {% if archived_chats_count %}
+            <div class="ui segment" style="box-shadow: 0 0 5px 0 darkorange; margin-top: 20px;">
+                <div class="ui divided items">
+                    {% for chat in page_obj %}
+                        <div class="item">
+                            {% if chat.user1 != request.user.profile %}
+                                <div class="ui small image">
+                                    <img src="{{ chat.user1.avatar_url }}" alt="{{ chat.user1.full_name }}" style="object-fit: cover;">
+                                </div>
+                            {% else %}
+                                <div class="ui small image">
+                                    <img src="{{ chat.user2.avatar_url }}" alt="{{ chat.user2.full_name }}" style="object-fit: cover;">
+                                </div>
+                            {% endif %}
+                            <div class="content">
+                                <div class="header">
+                                    <a href="" style="color: orange;">
+                                        {{ chat.name }}
+                                    </a>
+                                </div>
+                                    {% if chat.user1 != request.user.profile %}
+                                        <div class="meta">
+                                            <span class="username">@{{ chat.user1.user.username }}</span>
+                                        </div>
+                                    {% else %}
+                                        <div class="meta">
+                                            <span class="username">@{{ chat.user2.user.username }}</span>
+                                        </div>
+                                    {% endif %}
+                                <div class="extra">
+                                    <div class="ui buttons">
+                                        {% if chat.user1 != request.user.profile %}
+                                            <a href="{% url 'profiles:profile_detail' chat.user1.slug %}" class="ui primary button">
+                                                <i class="eye icon"></i>
+                                                Profile
+                                            </a>
+                                        {% else %}
+                                            <a href="{% url 'profiles:profile_detail' chat.user2.slug %}" class="ui primary button">
+                                                <i class="eye icon"></i>
+                                                Profile
+                                            </a>
+                                        {% endif %}
+                                        <a href="#" class="ui orange button">
+                                            <i class="archive icon"></i>
+                                            Unarchive
+                                        </a>
+                                        <a href=""
+                                           onclick="return confirm('Are you sure you want to delete this chat?')"
+                                           class="ui red button">
+                                            <i class="trash icon"></i>
+                                            Delete
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            {% if page_obj.has_other_pages %}
+                {% include 'components/paginator.html' %}
+            {% endif %}
+        {% else %}
+            <div class="ui warning message" style="box-shadow: 0 0 5px 0 darkorange;">
+                <i class="info circle icon"></i>
+                    You don't have any chats yet. Start connecting with people!
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

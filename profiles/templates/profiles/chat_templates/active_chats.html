@@ -27,7 +27,7 @@
                 Active chats
                 <div class="ui orange circular label">{{ active_chat_list_count }}</div>
             </a>
-            <a href="#" class="item">
+            <a href="{% url 'profiles:archived_chats' %}" class="item">
                 <i class="archive icon"></i>
                 Archived
             </a>
@@ -79,9 +79,13 @@
                                                 Profile
                                             </a>
                                         {% endif %}
-                                        <a href="{% url 'profiles:chat_detail' chat.id %}" class="ui orange button">
+                                        <a href="{% url 'profiles:chat_detail' chat.id %}" class="ui yellow button">
                                             <i class="envelope icon"></i>
                                             Open chat
+                                        </a>
+                                        <a href="{% url 'profiles:chat_detail' chat.id %}" class="ui orange button">
+                                            <i class="archive icon"></i>
+                                            Archive
                                         </a>
                                         <a href=""
                                            onclick="return confirm('Are you sure you want to delete this chat?')"
