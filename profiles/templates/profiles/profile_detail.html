@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% include chat_tags %}
+
 {% block title %}{{ profile.user.username }}'s profile{% endblock %}
 
 {% block css %}
@@ -128,6 +130,15 @@
                     </a>
                 </div>
             {% else %}
+                {% check_unread_messages request.user.profile as unread_count %}
+                <div style="margin-top: 10px;">
+                    <a class="ui yellow button" href="{% url 'profiles:active_chats' %}" style="width: 100%;">
+                        <i class="envelope icon"></i> My chats
+                        {% if unread_count %}
+                            <sup class="ui orange circular label">{{ unread_count }}</sup>
+                        {% endif %}
+                    </a>
+                </div>
                 <div style="margin-top: 10px;">
                     <a class="ui primary button" href="{% url 'profiles:friends_list' profile.user.username %}" style="width: 100%;">
                         <i class="users icon"></i> My friends

@@ -1,7 +1,7 @@
 from django.db.models import Q
 from django.template.defaulttags import register
 
-from profiles.models import Chat
+from profiles.models import Chat, ChatStatus
 
 
 @register.simple_tag
@@ -37,5 +37,16 @@ def deleted_chats_count(profile):
         chat_statuses__is_muted=False,
         chat_statuses__is_visible=True,
         chat_statuses__profile=profile,
+    ).count()
+    return chats
+
+@register.simple_tag
+def check_unread_messages(profile):
+    chats = ChatStatus.objects.filter(
+        profile=profile,
+        is_muted=False
+    ).filter(
+        Q(chat__messages__is_read=False) &
+        ~Q(chat__messages__sender=profile)
     ).count()
     return chats
