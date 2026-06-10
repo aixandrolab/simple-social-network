@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% include chat_tags %}
+
 {% block title %}Active chats{% endblock %}
 
 {% block content %}
@@ -30,10 +32,12 @@
             <a href="{% url 'profiles:archived_chats' %}" class="item">
                 <i class="archive icon"></i>
                 Archived
+                <div class="ui orange circular label">{% archived_chats_count request.user.profile %}</div>
             </a>
             <a href="{% url 'profiles:deleted_chats' %}" class="item">
                 <i class="trash alternate icon"></i>
                 Deleted
+                <div class="ui orange circular label">{% deleted_chats_count request.user.profile %}</div>
             </a>
         </div>
 

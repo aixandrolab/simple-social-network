@@ -1,7 +1,4 @@
-from django.core.exceptions import PermissionDenied
 from django.db import models
-from django.db.models import Q, Model
-from django.utils import timezone
 
 from profiles.models import Chat, Profile
 

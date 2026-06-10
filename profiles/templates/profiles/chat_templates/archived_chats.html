@@ -1,12 +1,14 @@
 {% extends 'base.html' %}
 
+{% include chat_tags %}
+
 {% block title %}Archived chats{% endblock %}
 
 {% block content %}
     <div class="ui container">
         <div class="ui center aligned segment" style="background: none; border: none; box-shadow: none;">
             <h1 class="ui orange header">
-                <i class="envelope icon"></i>
+                <i class="archive icon"></i>
                 <div class="content">
                         Archived chats
                     <sup class="ui orange circular label">{{ archived_chats_count }}</sup>
@@ -22,11 +24,12 @@
         <div class="ui divider"></div>
 
         <div class="ui three item orange menu">
-            <a href="{% url 'profiles:active_chats' %}" class="active item">
+            <a href="{% url 'profiles:active_chats' %}" class="item">
                 <i class="envelope icon"></i>
                 Active chats
+                <div class="ui orange circular label">{% active_chats_count request.user.profile %}</div>
             </a>
-            <a href="{% url 'profiles:archived_chats' %}" class="item">
+            <a href="{% url 'profiles:archived_chats' %}" class="active item">
                 <i class="archive icon"></i>
                 Archived
                 <div class="ui orange circular label">{{ archived_chats_count }}</div>
@@ -34,6 +37,7 @@
             <a href="{% url 'profiles:deleted_chats' %}" class="item">
                 <i class="trash alternate icon"></i>
                 Deleted
+                <div class="ui orange circular label">{% deleted_chats_count request.user.profile %}</div>
             </a>
         </div>
 

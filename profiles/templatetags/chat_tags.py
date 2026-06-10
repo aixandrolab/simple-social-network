@@ -1,0 +1,41 @@
+from django.db.models import Q
+from django.template.defaulttags import register
+
+from profiles.models import Chat
+
+
+@register.simple_tag
+def active_chats_count(profile):
+    chats = Chat.objects.filter(
+        Q(user1=profile) | Q(user2=profile),
+        chat_statuses__is_archived=False,
+        chat_statuses__is_deleted=False,
+        chat_statuses__is_muted=False,
+        chat_statuses__is_visible=True,
+        chat_statuses__profile=profile,
+    ).count()
+    return chats
+
+@register.simple_tag
+def archived_chats_count(profile):
+    chats = Chat.objects.filter(
+        Q(user1=profile) | Q(user2=profile),
+        chat_statuses__is_archived=True,
+        chat_statuses__is_deleted=False,
+        chat_statuses__is_muted=False,
+        chat_statuses__is_visible=True,
+        chat_statuses__profile=profile,
+    ).count()
+    return chats
+
+@register.simple_tag
+def deleted_chats_count(profile):
+    chats = Chat.objects.filter(
+        Q(user1=profile) | Q(user2=profile),
+        chat_statuses__is_archived=False,
+        chat_statuses__is_deleted=True,
+        chat_statuses__is_muted=False,
+        chat_statuses__is_visible=True,
+        chat_statuses__profile=profile,
+    ).count()
+    return chats
