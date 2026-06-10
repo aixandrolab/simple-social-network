@@ -83,7 +83,7 @@
                                                 Profile
                                             </a>
                                         {% endif %}
-                                        <a href="#" class="ui orange button">
+                                        <a href="{% url 'profiles:restore_chat' chat.id %}" class="ui orange button">
                                             <i class="archive icon"></i>
                                             Restore
                                         </a>

@@ -9,6 +9,7 @@ from profiles.views.chat_views.archived_chats_view import archived_chats_view
 from profiles.views.chat_views.chat_detail_view import chat_detail_view
 from profiles.views.chat_views.delete_message_view import delete_message_view
 from profiles.views.chat_views.deleted_chats_view import deleted_chats_view
+from profiles.views.chat_views.restore_chat import restore_chat_view
 from profiles.views.chat_views.send_message_view import send_message_view
 from profiles.views.friendship_views.accept_friendship_request_view import accept_friendship_request_view
 from profiles.views.friendship_views.cancel_friendship_request_view import cancel_friendship_request_view
@@ -66,6 +67,7 @@ urlpatterns = [
     path('chats/archived/', archived_chats_view, name='archived_chats'),
     path('chats/deleted/', deleted_chats_view, name='deleted_chats'),
     path('chat/delete/<int:chat_id>/', delete_chat_view, name='delete_chat'),
+    path('chat/restore/<int:chat_id>/', restore_chat_view, name='restore_chat'),
     path('chat/details/<int:chat_id>/', chat_detail_view, name='chat_detail'),
     path('chat/<int:chat_id>/send/message/', send_message_view, name='send_message'),
     path('chat/<int:chat_id>/delete/message/<int:message_id>/', delete_message_view, name='delete_message'),
