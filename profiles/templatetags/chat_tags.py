@@ -1,7 +1,7 @@
 from django.db.models import Q
 from django.template.defaulttags import register
 
-from profiles.models import Chat, ChatStatus
+from profiles.models import Chat, ChatStatus, ChatMessage
 
 
 @register.simple_tag
@@ -50,3 +50,11 @@ def check_unread_messages(profile):
         ~Q(chat__messages__sender=profile)
     ).count()
     return chats
+
+@register.simple_tag
+def get_last_message(chat_id):
+    chat = Chat.objects.get(id=chat_id)
+    last_message = ChatMessage.objects.filter(chat=chat).last()
+    if last_message is None:
+        return 'No messages here'
+    return f'{last_message.__str__()[:50]}...' if len(last_message.__str__()) > 30 else last_message

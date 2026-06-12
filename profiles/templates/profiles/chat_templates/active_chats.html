@@ -70,6 +70,12 @@
                                             <span class="username">@{{ chat.user2.user.username }}</span>
                                         </div>
                                     {% endif %}
+                                <div class="meta">
+                                    <div class="ui info message" style="background: #1e1e1e; color: #d4d4d4; font-family: 'Consolas', 'Monaco', monospace; padding: 8px 12px; box-shadow: none;">
+                                        Last message:
+                                        <span style="color: #9cdcfe;">{% get_last_message chat.id %}</span>
+                                    </div>
+                                </div>
                                 <div class="extra">
                                     <div class="ui buttons">
                                         <a href="{% url 'profiles:chat_detail' chat.id %}" class="ui yellow button">
