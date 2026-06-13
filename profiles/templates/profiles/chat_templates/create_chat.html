@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Create chat with {{ profile.user.username }}{% endblock %}
+
+{% block content %}
+    <div class="ui container">
+        <div class="ui center aligned segment">
+            <h1 class="ui header text-orange">Create chat</h1>
+        </div>
+        <div class="ui divider"></div>
+        <form method="post" action="" class="ui form">
+            {% csrf_token %}
+
+            <form method="post" action="{% url 'profiles:create_chat' profile.id %}" class="ui form">
+                <div class="field">
+                    <label for="chat_name" class="text-light">Chat name</label>
+                    <input class="field" id="chat_name" placeholder="New chat" name="chat_name">
+                </div>
+
+                <button class="ui green button" type="submit">Create chat</button>
+            </form>
+
+        </form>
+    </div>
+{% endblock %}

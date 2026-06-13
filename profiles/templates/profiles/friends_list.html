@@ -98,7 +98,7 @@
                                         Profile
                                     </a>
                                     {% if request.user.profile != friend %}
-                                        <a href="#" class="ui orange button">
+                                        <a href="{% url 'profiles:create_chat' friend.id %}" class="ui orange button">
                                             <i class="envelope icon"></i>
                                             Message
                                         </a>
