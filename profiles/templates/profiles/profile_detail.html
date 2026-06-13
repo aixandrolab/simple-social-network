@@ -125,6 +125,11 @@
                     {% endif %}
                 </div>
                 <div style="margin-top: 10px;">
+                    <a class="ui yellow button" href="{% url 'profiles:create_chat' profile.id %}" style="width: 100%;">
+                        <i class="envelope icon"></i> Message
+                    </a>
+                </div>
+                <div style="margin-top: 10px;">
                     <a class="ui primary button" href="{% url 'profiles:friends_list' profile.user.username %}" style="width: 100%;">
                         <i class="users icon"></i> Friends list
                     </a>
@@ -212,7 +217,7 @@
                                     <a href="{% url 'profiles:two_factor_setup' %}">Enable it</a> as soon as possible!
                                 </div>
                             {% else %}
-                                <div class="description">Not enabled</div>
+                                <div class="description">We don't know...</div>
                             {% endif %}
                         </div>
                     </div>
