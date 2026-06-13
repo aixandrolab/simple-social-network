@@ -218,187 +218,224 @@
         border-radius: 0 4px 4px 0;
         white-space: nowrap;
     }
+    .message-actions {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        display: flex;
+        gap: 5px;
+        opacity: 0;
+        transition: opacity 0.2s;
+    }
+
+    .message-bubble-content:hover .message-actions {
+        opacity: 1;
+    }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="chat-container" style="box-shadow: 0 0 5px 0 darkorange">
+    <div class="chat-container" style="box-shadow: 0 0 5px 0 darkorange">
 
-    <div class="participants-sidebar">
-        <div class="ui segment" style="background: rgba(255, 255, 255, 0.05); height: 100%; overflow-y: auto;">
-            <h3 class="ui inverted header">
-                <i class="users icon"></i>
-                <div class="content">
-                    Participants
-                    <div class="sub header">People in this chat</div>
+        <div class="participants-sidebar">
+            <div class="ui segment" style="background: rgba(255, 255, 255, 0.05); height: 100%; overflow-y: auto;">
+                <h3 class="ui inverted header">
+                    <i class="users icon"></i>
+                    <div class="content">
+                        Participants
+                        <div class="sub header">People in this chat</div>
+                    </div>
+                </h3>
+
+                <div class="ui divider"></div>
+
+                <div class="participant-item">
+                    {% if chat.user1.avatar %}
+                        <a href="{% url 'profiles:profile_detail' chat.user1.slug %}"><img class="participant-avatar" src="{{ chat.user1.avatar.url }}" alt="{{ chat.user1.user.username }}"></a>
+                    {% else %}
+                        <div class="ui circular placeholder" style="width: 50px; height: 50px;">
+                            <div class="image header"></div>
+                        </div>
+                    {% endif %}
+                    <div class="participant-info">
+                        <div class="participant-name">
+                            {{ chat.user1.user.get_full_name|default:chat.user1.user.username }}
+                            {% if chat.user1.user.profile == request.user.profile %}
+                                <span class="ui tiny label" style="margin-left: 5px;">You</span>
+                            {% endif %}
+                        </div>
+                        <div class="participant-status">
+                            <i class="circle {{ chat.user1.is_online|yesno:'green, grey' }} icon"></i>
+                            {{ chat.user1.is_online|yesno:"Online,Offline" }}
+                        </div>
+                    </div>
                 </div>
-            </h3>
 
-            <div class="ui divider"></div>
-
-            <div class="participant-item">
-                {% if chat.user1.avatar %}
-                    <a href="{% url 'profiles:profile_detail' chat.user1.slug %}"><img class="participant-avatar" src="{{ chat.user1.avatar.url }}" alt="{{ chat.user1.user.username }}"></a>
-                {% else %}
-                    <div class="ui circular placeholder" style="width: 50px; height: 50px;">
-                        <div class="image header"></div>
-                    </div>
-                {% endif %}
-                <div class="participant-info">
-                    <div class="participant-name">
-                        {{ chat.user1.user.get_full_name|default:chat.user1.user.username }}
-                        {% if chat.user1.user.profile == request.user.profile %}
-                            <span class="ui tiny label" style="margin-left: 5px;">You</span>
-                        {% endif %}
-                    </div>
-                    <div class="participant-status">
-                        <i class="circle {{ chat.user1.is_online|yesno:'green, grey' }} icon"></i>
-                        {{ chat.user1.is_online|yesno:"Online,Offline" }}
-                    </div>
-                </div>
-            </div>
-
-            <div class="participant-item">
-                {% if chat.user2.avatar %}
-                <a href="{% url 'profiles:profile_detail' chat.user2.slug %}"><img class="participant-avatar" src="{{ chat.user2.avatar.url }}" alt="{{ chat.user2.user.username }}"></a>
-                {% else %}
-                    <div class="ui circular placeholder" style="width: 50px; height: 50px;">
-                        <div class="image header"></div>
-                    </div>
-                {% endif %}
-                <div class="participant-info">
-                    <div class="participant-name">
-                        {{ chat.user2.user.get_full_name|default:chat.user2.user.username }}
-                        {% if chat.user2.user.profile == request.user.profile %}
-                            <span class="ui tiny label" style="margin-left: 5px;">You</span>
-                        {% endif %}
-                    </div>
-                    <div class="participant-status">
-                        <i class="circle {{ chat.user2.is_online|yesno:'green, grey' }} icon"></i>
-                        {{ chat.user2.is_online|yesno:"Online,Offline" }}
+                <div class="participant-item">
+                    {% if chat.user2.avatar %}
+                    <a href="{% url 'profiles:profile_detail' chat.user2.slug %}"><img class="participant-avatar" src="{{ chat.user2.avatar.url }}" alt="{{ chat.user2.user.username }}"></a>
+                    {% else %}
+                        <div class="ui circular placeholder" style="width: 50px; height: 50px;">
+                            <div class="image header"></div>
+                        </div>
+                    {% endif %}
+                    <div class="participant-info">
+                        <div class="participant-name">
+                            {{ chat.user2.user.get_full_name|default:chat.user2.user.username }}
+                            {% if chat.user2.user.profile == request.user.profile %}
+                                <span class="ui tiny label" style="margin-left: 5px;">You</span>
+                            {% endif %}
+                        </div>
+                        <div class="participant-status">
+                            <i class="circle {{ chat.user2.is_online|yesno:'green, grey' }} icon"></i>
+                            {{ chat.user2.is_online|yesno:"Online,Offline" }}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="messages-area" style="box-shadow: 0 0 5px 0 darkorange">
-        <div class="ui segment" style="background: rgba(255, 255, 255, 0.05); height: 100%; display: flex; flex-direction: column; padding: 0;">
+        <div class="messages-area" style="box-shadow: 0 0 5px 0 darkorange">
+            <div class="ui segment" style="background: rgba(255, 255, 255, 0.05); height: 100%; display: flex; flex-direction: column; padding: 0;">
 
-            <div class="ui secondary inverted menu" style="margin: 0; padding: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); flex-shrink: 0;">
-                <div class="header item">
-                    <i class="comment alternate icon"></i>
-                    {{ chat.name|default:"Chat Room" }}
-                </div>
-                <div class="right menu">
-                    <div class="item">
-                        <i class="calendar alternate outline icon"></i>
-                        Started {{ chat.created_at|date:"F j, Y" }}
+                <div class="ui secondary inverted menu" style="margin: 0; padding: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); flex-shrink: 0;">
+                    <div class="header item">
+                        <i class="comment alternate icon"></i>
+                        {{ chat.name|default:"Chat Room" }}
+                    </div>
+                    <div class="right menu">
+                        <div class="item">
+                            <i class="calendar alternate outline icon"></i>
+                            Started {{ chat.created_at|date:"F j, Y" }}
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="messages-scroll" id="messages-scroll">
-                {% for message in chat_messages %}
-                    {% if message.sender.user.profile == request.user.profile %}
-                        <div class="message-wrapper message-wrapper-right">
-                            <div class="message-bubble message-right">
-                                <div class="message-bubble-content" style="position: relative;">
-                                    <a href="{% url 'profiles:delete_message' chat.id message.id %}"
-                                       class="ui mini compact icon button"
-                                       style="position: absolute; top: 5px; right: 5px; background: rgba(0,0,0,0.3); padding: 5px; margin: 0;"
-                                       onclick="return confirm('Are you sure you want to delete this message?')">
-                                        <i class="trash alternate outline icon" style="margin: 0; color: white;"></i>
-                                    </a>
-                                    <div class="message-text">
-                                        {{ message.content|linebreaksbr }}
-                                    </div>
-                                    <div class="message-meta">
-                                        <span><i class="clock outline icon"></i> {{ message.timestamp|date:"H:i" }}</span>
-                                        {% if message.is_read %}
-                                            <span class="read-status"><i class="check circle icon"></i> Read</span>
-                                        {% else %}
-                                            <span class="read-status"><i class="circle outline icon"></i> Sent</span>
-                                        {% endif %}
-                                        {% if message.edited_at %}
-                                            <span><i class="pencil alternate icon" title="Edited"></i></span>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    {% else %}
-                        <div class="message-wrapper message-wrapper-left">
-                            <div class="message-bubble message-left">
-                                <div style="display: flex; align-items: flex-start; max-width: 100%;">
-                                    {% if message.sender.avatar %}
-                                        <img class="message-avatar" src="{{ message.sender.avatar.url }}" alt="{{ message.sender.user.username }}">
-                                    {% else %}
-                                        <div class="ui circular placeholder" style="width: 32px; height: 32px; flex-shrink: 0;">
-                                            <div class="image header"></div>
-                                        </div>
-                                    {% endif %}
-                                    <div class="message-bubble-content" style="flex: 1;">
-                                        <div class="message-sender-name">
-                                            {{ message.sender.user.get_full_name|default:message.sender.user.username }}
-                                        </div>
+                <div class="messages-scroll" id="messages-scroll">
+                    {% for message in chat_messages %}
+                        {% if message.sender.user.profile == request.user.profile %}
+                            <div class="message-wrapper message-wrapper-right" id="message-{{ message.id }}">
+                                <div class="message-bubble message-right">
+                                    <div class="message-bubble-content" style="position: relative;">
+                                        <button class="ui mini compact icon button edit-message-btn"
+                                                style="background: rgba(0,0,0,0.3); padding: 5px; margin: 0; position: absolute; top: 5px; right: 40px;"
+                                                data-message-id="{{ message.id }}"
+                                                data-message-content="{{ message.content|escapejs }}"
+                                                data-edit-url="{% url 'profiles:edit_message' chat.id message.id %}">
+                                            <i class="pencil alternate outline icon" style="margin: 0; color: white;"></i>
+                                        </button>
+                                        <a href="{% url 'profiles:delete_message' chat.id message.id %}"
+                                           class="ui mini compact icon button"
+                                           style="position: absolute; top: 5px; right: 5px; background: rgba(0,0,0,0.3); padding: 5px; margin: 0;"
+                                           onclick="return confirm('Are you sure you want to delete this message?')">
+                                            <i class="trash alternate outline icon" style="margin: 0; color: white;"></i>
+                                        </a>
                                         <div class="message-text">
-                                            {{ message.content }}
+                                            {{ message.content|linebreaksbr }}
                                         </div>
                                         <div class="message-meta">
-                                            <span><i class="clock outline icon"></i> {{ message.timestamp|date:"H:i, d M" }}</span>
+                                            <span><i class="clock outline icon"></i> {{ message.timestamp|date:"H:i" }}</span>
+                                            {% if message.is_read %}
+                                                <span class="read-status"><i class="check circle icon"></i> Read</span>
+                                            {% else %}
+                                                <span class="read-status"><i class="circle outline icon"></i> Sent</span>
+                                            {% endif %}
                                             {% if message.edited_at %}
-                                                <span><i class="pencil alternate icon" title="Edited at {{ message.edited_at|date:'H:i' }}"></i></span>
+                                                <span><i class="pencil alternate icon" title="Edited"></i></span>
                                             {% endif %}
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        {% else %}
+                            <div class="message-wrapper message-wrapper-left">
+                                <div class="message-bubble message-left">
+                                    <div style="display: flex; align-items: flex-start; max-width: 100%;">
+                                        {% if message.sender.avatar %}
+                                            <img class="message-avatar" src="{{ message.sender.avatar.url }}" alt="{{ message.sender.user.username }}">
+                                        {% else %}
+                                            <div class="ui circular placeholder" style="width: 32px; height: 32px; flex-shrink: 0;">
+                                                <div class="image header"></div>
+                                            </div>
+                                        {% endif %}
+                                        <div class="message-bubble-content" style="flex: 1;">
+                                            <div class="message-sender-name">
+                                                {{ message.sender.user.get_full_name|default:message.sender.user.username }}
+                                            </div>
+                                            <div class="message-text">
+                                                {{ message.content }}
+                                            </div>
+                                            <div class="message-meta">
+                                                <span><i class="clock outline icon"></i> {{ message.timestamp|date:"H:i, d M" }}</span>
+                                                {% if message.edited_at %}
+                                                    <span><i class="pencil alternate icon" title="Edited at {{ message.edited_at|date:'H:i' }}"></i></span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% empty %}
+                        <div class="ui placeholder inverted segment" style="text-align: center; background: transparent;">
+                            <div class="icon">
+                                <i class="comment outline icon" style="font-size: 4em;"></i>
+                            </div>
+                            <div class="header" style="color: white;">
+                                No messages yet
+                            </div>
+                            <div class="description" style="color: rgba(255, 255, 255, 0.7);">
+                                Send the first message to start the conversation!
+                            </div>
                         </div>
-                    {% endif %}
-                {% empty %}
-                    <div class="ui placeholder inverted segment" style="text-align: center; background: transparent;">
-                        <div class="icon">
-                            <i class="comment outline icon" style="font-size: 4em;"></i>
-                        </div>
-                        <div class="header" style="color: white;">
-                            No messages yet
-                        </div>
-                        <div class="description" style="color: rgba(255, 255, 255, 0.7);">
-                            Send the first message to start the conversation!
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
+                    {% endfor %}
+                </div>
 
-            <div class="input-area">
-                <form method="POST" action="{% url 'profiles:send_message' chat.id %}" class="ui reply form">
-                    {% csrf_token %}
-                    <div class="field">
-                        <div class="ui fluid action input">
-                            <textarea
-                                name="content"
-                                rows="1"
-                                placeholder="Type your message here..."
-                                class="chat-message-input"
-                                style="min-height: 40px; resize: none;"
-                                oninput="this.style.height = '';this.style.height = Math.min(this.scrollHeight, 100) + 'px'"
-                            ></textarea>
-                            <button type="submit" class="ui primary icon button">
-                                <i class="send icon"></i> Send
-                            </button>
+                <div class="input-area">
+                    <form method="POST" action="{% url 'profiles:send_message' chat.id %}" class="ui reply form">
+                        {% csrf_token %}
+                        <div class="field">
+                            <div class="ui fluid action input">
+                                <textarea
+                                    name="content"
+                                    rows="1"
+                                    placeholder="Type your message here..."
+                                    class="chat-message-input"
+                                    style="min-height: 40px; resize: none;"
+                                    oninput="this.style.height = '';this.style.height = Math.min(this.scrollHeight, 100) + 'px'"
+                                ></textarea>
+                                <button type="submit" class="ui primary icon button">
+                                    <i class="send icon"></i> Send
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
 
-                <div class="ui tiny inverted message" style="margin-top: 10px;">
-                    <i class="info circle icon"></i>
-                    Press Enter to send, Shift+Enter for new line
+                    <div class="ui tiny inverted message" style="margin-top: 10px;">
+                        <i class="info circle icon"></i>
+                        Press Enter to send, Shift+Enter for new line
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+
+    <div class="ui tiny modal" id="editMessageModal">
+        <div class="header">Edit Message</div>
+        <div class="content">
+            <form id="edit-message-form" class="ui form">
+                {% csrf_token %}
+                <input type="hidden" id="edit-message-id" name="message_id">
+                <div class="field">
+                    <textarea id="edit-message-content" name="content" rows="5"></textarea>
+                </div>
+                <div class="actions">
+                    <div class="ui cancel button">Cancel</div>
+                    <button type="submit" class="ui primary button">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
 {% endblock %}
 
 {% block js %}
@@ -417,6 +454,79 @@
                     if (this.value.trim()) {
                         this.form.submit();
                     }
+                }
+            });
+        }
+
+        const $modal = $('#editMessageModal').modal({
+            closable: true,
+            onDeny: function() {
+                return true;
+            }
+        });
+
+        $(document).on('click', '.edit-message-btn', function(e) {
+            e.preventDefault()
+
+            const messageId = $(this).data('message-id')
+            const messageContent = $(this).data('message-content')
+            const editUrl = $(this).data('edit-url');
+
+            $('#edit-message-id').val(messageId)
+            $('#edit-message-content').val(messageContent)
+            $('#edit-message-form').data('edit-url', editUrl);
+
+            $modal.modal('show');
+        });
+
+        $('#edit-message-form').on('submit', function(e) {
+            e.preventDefault();
+
+            const messageId = $('#edit-message-id').val();
+            const content = $('#edit-message-content').val().trim();
+            const editUrl = $('#edit-message-form').data('edit-url');
+
+            if (!content) {
+                alert('Message cannot be empty');
+                return;
+            }
+
+            $.ajax({
+                url: editUrl,
+                method: 'POST',
+                data: {
+                    'content': content,
+                    'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
+                },
+                success: function(response) {
+                    if (response.success) {
+                        const $messageDiv = $(`#message-${messageId}`);
+                        if ($messageDiv.length) {
+                            $messageDiv.find('.message-text').html(response.content.replace(/\n/g, '<br>'));
+
+                            const $meta = $messageDiv.find('.message-meta');
+                            if (!$meta.find('.edited-indicator').length) {
+                                $meta.prepend('<span class="edited-indicator"><i class="pencil alternate icon" title="Edited"></i></span>');
+                            }
+                        }
+
+                        $modal.modal('hide');
+                    }
+                },
+                error: function(xhr) {
+                    const error = xhr.responseJSON?.error || 'Error editing message';
+                    alert(error);
+                }
+            });
+        });
+
+        const textArea = document.querySelector('.chat-message-input')
+        if (textArea) {
+            textArea.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault()
+                    if (this.value.trim()) {}
+                        this.form.submit()
                 }
             });
         }
