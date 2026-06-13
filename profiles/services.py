@@ -146,7 +146,7 @@ class FriendshipService:
             return Profile.objects.filter(
                 Q(sent_friendships__receiver=user, sent_friendships__status=FriendshipStatus.ACCEPTED) |
                 Q(received_friendships__sender=user, received_friendships__status=FriendshipStatus.ACCEPTED)
-            ).distinct()
+            ).select_related('user').distinct()
         except DatabaseError as e:
             logger.error(f"Database error getting friends: {e}")
             raise ValidationError("Database error occurred")

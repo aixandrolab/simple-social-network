@@ -8,8 +8,8 @@ from profiles.services import FriendshipService
 
 @login_required()
 def friends_list_view(request, username):
-    target_user = request.user.profile if username == request.user.username else get_object_or_404(
-        Profile,
+    target_user = get_object_or_404(
+        Profile.objects.select_related('user'),
         user__username=username
     )
     friends = FriendshipService.get_friends(target_user)
