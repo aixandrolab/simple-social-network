@@ -124,7 +124,7 @@ class FriendshipService:
             return Friendship.objects.filter(
                 receiver=user,
                 status=FriendshipStatus.PENDING,
-            ).select_related('sender')
+            ).select_related('sender', 'sender__user')
         except DatabaseError as e:
             logger.error(f"Database error getting incoming requests: {e}")
             raise ValidationError("Database error occurred")
