@@ -22,4 +22,5 @@ def archive_chat_view(request, chat_id):
         return redirect('profiles:archived_chats')
     except Exception as e:
         messages.error(request, f'Chat does not exist!')
+        print(e)
         return redirect('profiles:active_chats')

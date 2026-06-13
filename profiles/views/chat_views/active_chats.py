@@ -3,7 +3,7 @@ from django.db.models import Q
 from django.shortcuts import render
 
 from core.utils.paginator import CachedCountPaginator
-from profiles.models import Chat, ChatMessage
+from profiles.models import Chat
 
 
 @login_required()

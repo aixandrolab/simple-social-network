@@ -9,6 +9,6 @@ def validate_image(image):
         img = Image.open(image)
         img.verify()
     except Exception as e:
-        return False, 'Upload error!'
+        return False, f'Upload error! {e}'
 
     return True, ''

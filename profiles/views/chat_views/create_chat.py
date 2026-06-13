@@ -10,12 +10,11 @@ def create_chat_view(request, profile_id):
     check_chat_exist = Chat.objects.filter(
         Q(user1=request.user.profile, user2=profile) | Q(user2=request.user.profile, user1=profile)
     )
-    if check_chat_exist.exists():
+    if check_chat_exist.exists() and check_chat_exist:
         return redirect('profiles:chat_detail', check_chat_exist.first().pk)
 
     if request.method == 'POST':
         chat_name = request.POST.get('chat_name')
-        print(chat_name)
 
         chat = Chat.objects.create(
             name=chat_name,

@@ -1,7 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
-from profiles.models.friendship_models import Friendship
 from profiles.models.profile_model import Profile
 from profiles.services import FriendshipService
 

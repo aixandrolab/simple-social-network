@@ -21,4 +21,5 @@ def delete_friendship_view(request, user_id):
         messages.success(request, 'Friend removed successfully.')
     except ValidationError as e:
         messages.error(request, 'Something went wrong.')
+        print(e)
     return redirect('profiles:friends_list', request.user.username)
