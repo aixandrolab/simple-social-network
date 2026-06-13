@@ -73,7 +73,13 @@
                                 <div class="meta">
                                     <div class="ui info message" style="background: #1e1e1e; color: #d4d4d4; font-family: 'Consolas', 'Monaco', monospace; padding: 8px 12px; box-shadow: none;">
                                         Last message:
-                                        <span style="color: #9cdcfe;">{% get_last_message chat.id %}</span>
+                                        <span style="color: #9cdcfe;">
+                                            {% if chat.last_message_text %}
+                                                {{ chat.last_message_text|truncatechars:50 }}
+                                            {% else %}
+                                                No messages here
+                                            {% endif %}
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="extra">
