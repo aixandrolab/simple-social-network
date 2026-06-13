@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 
-from core.forms.login_form import LoginForm
+from core.forms.login import LoginForm
 
 
 def login_view(request):
@@ -21,12 +21,12 @@ def login_view(request):
 
             if user is None:
                 messages.error(request, "Incorrect username or password fields!")
-                return render(request, 'core/auth/login.html', {'form': form})
+                return render(request, 'core/auth_templates/login.html', {'form': form})
 
             if not user.profile.is_email_verified:
                 messages.info(request, "Your account is not activated! Please check your email"
                                        " for verification envelope")
-                return render(request, 'core/auth/login.html', {'form': form})
+                return render(request, 'core/auth_templates/login.html', {'form': form})
 
             if user.profile.is_2fa_active:
                 request.session['2fa_user_id'] = user.id
@@ -44,4 +44,4 @@ def login_view(request):
     context = {
         'form': form,
     }
-    return render(request, 'core/auth/login.html', context)
+    return render(request, 'core/auth_templates/login.html', context)

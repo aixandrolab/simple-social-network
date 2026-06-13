@@ -1,12 +1,12 @@
 from django.urls import path
 
-from core.views.auth_views.confirm_register_view import confirm_register_view
-from core.views.auth_views.login_view import login_view
-from core.views.auth_views.register_view import register_view
-from core.views.home_view import home_view
-from core.views.password_views.forgot_password_view import forgot_password_view
-from core.views.password_views.resend_forgot_password_view import resend_forgot_password_view
-from core.views.password_views.reset_password_view import reset_password_view
+from core.views.auth_views.confirm_register import confirm_register_view
+from core.views.auth_views.login import login_view
+from core.views.auth_views.register import register_view
+from core.views.home import home_view
+from core.views.password_views.forgot_password import forgot_password_view
+from core.views.password_views.resend_forgot_password import resend_forgot_password_view
+from core.views.password_views.reset_password import reset_password_view
 
 app_name = 'core'
 

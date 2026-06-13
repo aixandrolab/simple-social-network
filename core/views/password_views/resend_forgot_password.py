@@ -20,4 +20,5 @@ def resend_forgot_password_view(request):
         messages.success(request, 'Email was successfully sent! Check your email for the envelope.')
     except Exception as e:
         messages.error(request, 'Please enter email again.')
+        print(e)
     return redirect('core:forgot_password')

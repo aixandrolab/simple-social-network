@@ -18,6 +18,7 @@ def forgot_password_view(request):
                 user = User.objects.get(email=email)
             except Exception as e:
                 messages.success(request, 'Email was sent! Check your email for the letter.')
+                print(e)
                 return render(request, 'core/password_templates/forgot_password.html', {'form': form})
 
             token = PasswordResetToken.create_token(user)

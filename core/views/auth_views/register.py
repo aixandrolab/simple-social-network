@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from core.forms.register_form import RegisterForm
+from core.forms.register import RegisterForm
 from core.services.email_service import Email
 from profiles.models.email_verification_token_model import EmailVerificationToken
 
@@ -34,11 +34,12 @@ def register_view(request):
                 return redirect('core:login')
         except Exception as e:
             messages.error(request, 'Please correct the errors below.')
-            return render(request, 'core/auth/register.html', {'form': form})
+            print(e)
+            return render(request, 'core/auth_templates/register.html', {'form': form})
     else:
         form = RegisterForm()
 
     context = {
         'form': form,
     }
-    return render(request, 'core/auth/register.html', context)
+    return render(request, 'core/auth_templates/register.html', context)
