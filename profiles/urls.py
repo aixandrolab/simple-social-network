@@ -79,7 +79,6 @@ urlpatterns = [
     path('chat/unarchive/<int:chat_id>/', unarchive_chat_view, name='unarchive_chat'),
 
     path('chat/details/<int:chat_id>/', chat_detail_view, name='chat_detail'),
-    path('chat/<int:chat_id>/send/message/', send_message_view, name='send_message'),
     path('chat/<int:chat_id>/delete/message/<int:message_id>/', delete_message_view, name='delete_message'),
     path('chat/<int:chat_id>/edit/message/<int:message_id>/', edit_message_view, name='edit_message'),
     path('chat/<int:chat_id>/clear/', clear_chat_view, name='clear_chat'),

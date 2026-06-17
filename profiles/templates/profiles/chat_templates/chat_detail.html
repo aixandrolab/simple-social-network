@@ -319,7 +319,7 @@
                     </div>
                 </div>
 
-                <div class="messages-scroll" id="messages-scroll">
+                <div class="messages-scroll chat-messages" id="messages-scroll">
                     {% for message in chat_messages %}
                         <div class="message-wrapper {% if message.sender == request.user.profile %}message-wrapper-right{% else %}message-wrapper-left{% endif %}" id="message-{{ message.id }}">
                             <div class="message-bubble {% if message.sender == request.user.profile %}message-right{% else %}message-left{% endif %}">
@@ -391,11 +391,12 @@
                 </div>
 
                 <div class="input-area">
-                    <form method="POST" action="{% url 'profiles:send_message' chat.id %}" class="ui reply form">
+                    <form method="POST" class="ui reply form" id="message-form">
                         {% csrf_token %}
                         <div class="field">
                             <div class="ui fluid action input">
                                 <textarea
+                                    id="messageContent"
                                     name="content"
                                     rows="1"
                                     placeholder="Type your message here..."
@@ -441,91 +442,5 @@
 {% endblock %}
 
 {% block js %}
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const messagesScroll = document.getElementById('messages-scroll');
-        if (messagesScroll) {
-            messagesScroll.scrollTop = messagesScroll.scrollHeight;
-        }
-
-        const textarea = document.querySelector('.chat-message-input');
-        if (textarea) {
-            textarea.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    if (this.value.trim()) {
-                        this.form.submit();
-                    }
-                }
-            });
-        }
-
-        const $modal = $('#editMessageModal').modal({
-            closable: true,
-            onDeny: function() {
-                return true;
-            }
-        });
-
-        $(document).on('click', '.edit-message-btn', function(e) {
-            e.preventDefault()
-
-            const messageId = $(this).data('message-id')
-            const messageContent = $(this).data('message-content')
-            const editUrl = $(this).data('edit-url');
-
-            $('#edit-message-id').val(messageId)
-            $('#edit-message-content').val(messageContent)
-            $('#edit-message-form').data('edit-url', editUrl);
-
-            $modal.modal('show');
-        });
-
-        $('#edit-message-form').on('submit', function(e) {
-            e.preventDefault();
-
-            const messageId = $('#edit-message-id').val();
-            const content = $('#edit-message-content').val().trim();
-            const editUrl = $('#edit-message-form').data('edit-url');
-
-            if (!content) {
-                alert('Message cannot be empty');
-                return;
-            }
-
-            $.ajax({
-                url: editUrl,
-                method: 'POST',
-                data: {
-                    'content': content,
-                    'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
-                },
-                success: function(response) {
-                    if (response.success) {
-                        $modal.modal('hide');
-                        location.reload()
-                    }
-                },
-                error: function(xhr) {
-                    const error = xhr.responseJSON?.error || 'Error editing message';
-                    alert(error);
-                }
-            });
-        });
-
-        const textArea = document.querySelector('.chat-message-input')
-        if (textArea) {
-            textArea.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault()
-                    if (this.value.trim()) {}
-                        this.form.submit()
-                }
-            });
-        }
-    });
-    $('.ui.dropdown')
-      .dropdown()
-    ;
-</script>
+    {% include 'profiles/chat_templates/_chat_detail_js.html' %}
 {% endblock %}

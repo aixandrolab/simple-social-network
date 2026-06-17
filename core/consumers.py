@@ -49,7 +49,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 await self.handle_delete_message(data)
 
         except Exception as e:
-            await self.send(json.dumps({
+            await self.send(text_data=json.dumps({
                 'type': 'error',
                 'error': str(e)
             }))
@@ -64,11 +64,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.channel_layer.group_send(
             self.chat_name,
             {
-                'type': 'chat_message',
+                'type': 'chat_message_event',
                 'message_id': message.pk,
                 'content': message.content,
                 'sender_id': message.sender.id,
-                'sender_name': message.sender.usernaname,
+                'sender_name': message.sender.user.username,
                 'sender_avatar_url': message.sender.avatar_url,
                 'timestamp': message.timestamp.isoformat(),
             }
@@ -86,7 +86,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.channel_layer.group_send(
             self.chat_name,
             {
-                'type': 'edit_message',
+                'type': 'edit_message_event',
                 'message_id': updated_message.pk,
                 'content': updated_message.content,
                 'timestamp': updated_message.timestamp.isoformat(),
@@ -104,30 +104,30 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.channel_layer.group_send(
             self.chat_name,
             {
-                'type': 'delete_message',
+                'type': 'delete_message_event',
                 'message_id': message_id,
             }
         )
 
-    async def chat_message(self, event):
+    async def chat_message_event(self, event):
         await self.send(text_data=json.dumps(event))
 
-    async def edit_message(self, event):
+    async def edit_message_event(self, event):
         await self.send(text_data=json.dumps(event))
 
-    async def delete_message(self, event):
+    async def delete_message_event(self, event):
         await self.send(text_data=json.dumps(event))
 
     @database_sync_to_async
     def is_user_in_chat(self):
         return Chat.objects.filter(
             Q(user1=self.user.profile) | Q(user2=self.user.profile),
-            chat_id=self.chat_id
-        )
+            id=self.chat_id
+        ).exists()
 
     @database_sync_to_async
     def create_message(self, content):
-        chat = Chat.objects.get(chat_id=self.chat_id)
+        chat = Chat.objects.get(id=self.chat_id)
         return ChatMessage.objects.create(
             chat=chat,
             sender=self.user.profile,
