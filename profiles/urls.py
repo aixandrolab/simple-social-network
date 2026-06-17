@@ -4,6 +4,7 @@ from django.urls import path
 
 from profiles.views.auth_views.logout import logout_view
 from profiles.views.chat_views.archive_chat import archive_chat_view
+from profiles.views.chat_views.clear_chat import clear_chat_view
 from profiles.views.chat_views.create_chat import create_chat_view
 from profiles.views.chat_views.delete_chat import delete_chat_view
 from profiles.views.chat_views.active_chats import active_chats_view
@@ -81,6 +82,7 @@ urlpatterns = [
     path('chat/<int:chat_id>/send/message/', send_message_view, name='send_message'),
     path('chat/<int:chat_id>/delete/message/<int:message_id>/', delete_message_view, name='delete_message'),
     path('chat/<int:chat_id>/edit/message/<int:message_id>/', edit_message_view, name='edit_message'),
+    path('chat/<int:chat_id>/clear/', clear_chat_view, name='clear_chat'),
 ]
 
 if settings.DEBUG:

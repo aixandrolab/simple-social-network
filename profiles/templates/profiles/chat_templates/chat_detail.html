@@ -299,9 +299,17 @@
             <div class="ui segment" style="background: rgba(255, 255, 255, 0.05); height: 100%; display: flex; flex-direction: column; padding: 0;">
 
                 <div class="ui secondary inverted menu" style="margin: 0; padding: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); flex-shrink: 0;">
-                    <div class="header item">
-                        <i class="comment alternate icon"></i>
-                        {{ chat.name|default:"Chat Room" }}
+                    <div class="ui header item dropdown">
+                        <div class="text">
+                            <i class="comment alternate icon"></i>
+                            {{ chat.name|default:"Chat Room" }}
+                        </div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                            <div class="item">
+                                <a href="{% url 'profiles:clear_chat' chat.id %}" style="color: black" onclick="return(confirm('Are you sure, you want to clear this chat?'))"><i class="eraser icon"></i>Clear chat</a>
+                            </div>
+                        </div>
                     </div>
                     <div class="right menu">
                         <div class="item">
@@ -527,5 +535,8 @@
             });
         }
     });
+    $('.ui.dropdown')
+      .dropdown()
+    ;
 </script>
 {% endblock %}
