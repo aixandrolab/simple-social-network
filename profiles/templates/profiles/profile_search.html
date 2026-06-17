@@ -15,6 +15,15 @@
         </h2>
 
         <div class="ui divider"></div>
+        <div class="field">
+            <form action="{% url 'profiles:profile_search' %}" method="post" class="ui form">
+                {% csrf_token %}
+                <label for="prompt" class="text-light">Search Prompt</label>
+                <input id="prompt" name="prompt" type="text" placeholder="Enter username or first name">
+                <button type="submit" class="ui button primary" style="margin-top: 10px;"><i class="search icon"></i>Search</button>
+            </form>
+        </div>
+        <div class="ui divider"></div>
 
         {% if profile_list %}
         <div class="ui four column stackable grid">
