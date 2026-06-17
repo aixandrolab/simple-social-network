@@ -10,3 +10,4 @@ sqlparse==0.5.5
 bcrypt==5.0.0
 pyotp==2.9.0
 qrcode==8.2
+channels==4.3.2
