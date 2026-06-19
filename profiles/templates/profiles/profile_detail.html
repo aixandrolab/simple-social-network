@@ -135,7 +135,7 @@
                     </a>
                 </div>
             {% else %}
-                {% check_unread_messages request.user.profile as unread_count %}
+                {% get_unread_messages_count request.user.profile.id as unread_count %}
                 <div style="margin-top: 10px;">
                     <a class="ui yellow button" href="{% url 'chats:active_chats' %}" style="width: 100%;">
                         <i class="envelope icon"></i> My chats

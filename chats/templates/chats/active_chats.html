@@ -71,11 +71,12 @@
                                         </div>
                                     {% endif %}
                                 <div class="meta">
+                                    {% check_unread_messages request.user.profile.id chat.id as check_unread %}
                                     <div class="ui info message" style="background: #1e1e1e; color: #d4d4d4; font-family: 'Consolas', 'Monaco', monospace; padding: 8px 12px; box-shadow: none;">
                                         Last message:
                                         <span style="color: #9cdcfe;">
                                             {% if chat.last_message_text %}
-                                                {{ chat.last_message_text|truncatechars:50 }}
+                                                {{ chat.last_message_text|truncatechars:50 }} {% if check_unread %}<span class="text-orange">(New message!)</span> {% endif %}
                                             {% else %}
                                                 No messages here
                                             {% endif %}

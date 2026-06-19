@@ -15,6 +15,7 @@ def active_chats_count(profile):
         chat_statuses__profile=profile,
     ).count()
 
+
 @register.simple_tag
 def archived_chats_count(profile):
     return Chat.objects.filter(
@@ -25,6 +26,7 @@ def archived_chats_count(profile):
         chat_statuses__is_visible=True,
         chat_statuses__profile=profile,
     ).count()
+
 
 @register.simple_tag
 def deleted_chats_count(profile):
@@ -37,13 +39,25 @@ def deleted_chats_count(profile):
         chat_statuses__profile=profile,
     ).count()
 
+
 @register.simple_tag
-def check_unread_messages(profile):
-    chats = ChatStatus.objects.filter(
-        profile=profile,
+def get_unread_messages_count(profile_id):
+    return ChatStatus.objects.filter(
+        profile__id=profile_id,
         is_muted=False
     ).filter(
         Q(chat__messages__is_read=False) &
-        ~Q(chat__messages__sender=profile)
+        ~Q(chat__messages__sender__id=profile_id)
     ).count()
-    return chats
+
+
+@register.simple_tag
+def check_unread_messages(profile_id, chat_id):
+    return ChatStatus.objects.filter(
+        chat__id=chat_id,
+        profile__id=profile_id,
+        is_muted=False
+    ).filter(
+        Q(chat__messages__is_read=False) &
+        ~Q(chat__messages__sender__id=profile_id)
+    ).exists()
