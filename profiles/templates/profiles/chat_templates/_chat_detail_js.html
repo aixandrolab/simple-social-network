@@ -19,7 +19,7 @@
                         handleNewMessage(data);
                         break;
                     case 'edit_message_event':
-                        // handleEditMessage(data);
+                        handleEditMessage(data);
                         break;
                     case 'delete_message_event':
                         handleDeleteMessage(data)
@@ -115,63 +115,89 @@
             }
         })
 
+        function formatTimeAgo(timestamp) {
+            const now = new Date();
+            const messageTime = new Date(timestamp);
+            const seconds = Math.floor((now - messageTime) / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const hours = Math.floor(minutes / 60);
+            const days = Math.floor(hours / 24);
+
+            if (seconds < 60) return "just now";
+            if (minutes < 60) return `${minutes} minute${minutes === 1 ? '' : 's'} ago`;
+            if (hours < 24) return `${hours} hour${hours === 1 ? '' : 's'} ago`;
+            return `${days} day${days === 1 ? '' : 's'} ago`;
+        }
+
+        function handleEditMessage(data) {
+            const message = document.querySelector(`#message-${data.message_id}`);
+
+            if (message) {
+                let textContainer = message.querySelector('.message-text');
+                if (textContainer) {
+                    textContainer.textContent = data.content;
+                    message[data.message_id] = data.content;
+                } else {
+                    console.log('Text container not found.');
+                }
+
+                const timestampElement = message.querySelector('small')
+                if (timestampElement) {
+                    const senderName = message.querySelector('.message-container')?.dataset?.senderName ||
+                        message.dataset.senderName  || 'Unknown';
+                    timestampElement.innerHTML = `
+                        ${senderName}, ${formatTimeAgo(data.timestamp)}
+                        <span><i class="pencil icon"></i>Edited ${formatTimeAgo(data.edited_at)}</span>
+                    `;
+                }
+            } else {
+                console.error('Message is not defined.')
+            }
+        }
+
         const messagesScroll = document.getElementById('messages-scroll');
         if (messagesScroll) {
             messagesScroll.scrollTop = messagesScroll.scrollHeight;
         }
 
-        const $modal = $('#editMessageModal').modal({
-            closable: true,
-            onDeny: function() {
-                return true;
-            }
-        });
+        $(document).on('click', '.edit-message-btn', function() {
+            const messageId = $(this).data('message-id');
+            const messageContent = $(this).data('message-content');
 
-        $(document).on('click', '.edit-message-btn', function(e) {
-            e.preventDefault()
 
-            const messageId = $(this).data('message-id')
-            const messageContent = $(this).data('message-content')
-            const editUrl = $(this).data('edit-url');
-
-            $('#edit-message-id').val(messageId)
-            $('#edit-message-content').val(messageContent)
-            $('#edit-message-form').data('edit-url', editUrl);
-
-            $modal.modal('show');
-        });
-
-        $('#edit-message-form').on('submit', function(e) {
-            e.preventDefault();
-
-            const messageId = $('#edit-message-id').val();
-            const content = $('#edit-message-content').val().trim();
-            const editUrl = $('#edit-message-form').data('edit-url');
-
-            if (!content) {
-                alert('Message cannot be empty');
-                return;
-            }
-
-            $.ajax({
-                url: editUrl,
-                method: 'POST',
-                data: {
-                    'content': content,
-                    'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
-                },
-                success: function(response) {
-                    if (response.success) {
-                        $modal.modal('hide');
-                        location.reload()
+            if (messageContent) {
+                $('#edit-message-id').val(messageId);
+                $('#edit-message-content').val(messageContent);
+                $('#editMessageModal').modal('show');
+            } else {
+                console.error('Message content not found.');
+                const messageElement = document.querySelector(`#message-${messageId}`);
+                if (messageElement) {
+                    const text = messageElement.querySelector('.message-text')?.textContent;
+                    if (text) {
+                        $('#edit-message-id').val(messageId);
+                        $('#edit-message-content').val(messageContent);
+                        $('#editMessageModal').modal('show');
+                        messageContent[messageId] = text;
                     }
-                },
-                error: function(xhr) {
-                    const error = xhr.responseJSON?.error || 'Error editing message';
-                    alert(error);
                 }
-            });
+            }
         });
+
+        $('#edit-message-form').on('submit', function (e) {
+            e.preventDefault()
+            const messageId = $('#edit-message-id').val()
+            const content = $('#edit-message-content').val()
+            if (content && messageId && chatSocket.readyState === WebSocket.OPEN) {
+                chatSocket.send(JSON.stringify({
+                    type: 'edit_message_event',
+                    message_id: messageId,
+                    content: content
+                }));
+                $('#editMessageModal').modal('hide');
+            }
+        })
+
         connectWebSocket();
     });
     $('.ui.dropdown')

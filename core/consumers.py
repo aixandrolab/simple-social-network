@@ -43,7 +43,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
             if message_type == 'chat_message_event':
                 await self.handle_chat_message(data)
-            elif message_type == 'edit_message':
+            elif message_type == 'edit_message_event':
                 await self.handle_edit_message(data)
             elif message_type == 'delete_message_event':
                 await self.handle_delete_message(data)

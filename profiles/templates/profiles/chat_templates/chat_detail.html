@@ -339,8 +339,7 @@
                                                 <button class="ui mini compact icon button edit-message-btn"
                                                         style="background: rgba(0,0,0,0.3); padding: 5px; margin: 0;"
                                                         data-message-id="{{ message.id }}"
-                                                        data-message-content="{{ message.content|escapejs }}"
-                                                        data-edit-url="{% url 'profiles:edit_message' chat.id message.id %}">
+                                                        data-message-content="{{ message.content|escapejs }}">
                                                     <i class="edit outline icon" style="margin: 0; color: white;"></i>
                                                 </button>
                                                 <button data-message-id="{{ message.id }}"
