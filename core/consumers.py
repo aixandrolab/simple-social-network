@@ -41,11 +41,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
             data = json.loads(text_data)
             message_type = data.get('type')
 
-            if message_type == 'chat_message':
+            if message_type == 'chat_message_event':
                 await self.handle_chat_message(data)
             elif message_type == 'edit_message':
                 await self.handle_edit_message(data)
-            elif message_type == 'delete_message':
+            elif message_type == 'delete_message_event':
                 await self.handle_delete_message(data)
 
         except Exception as e:

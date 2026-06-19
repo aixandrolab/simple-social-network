@@ -22,7 +22,7 @@
                         // handleEditMessage(data);
                         break;
                     case 'delete_message_event':
-                        // handleDeleteMessage(data)
+                        handleDeleteMessage(data)
                         break;
                     case 'error':
                         console.error('WebSocket Error: ', data.error);
@@ -88,12 +88,32 @@
             const content = messageInput.value.trim();
             if (content && chatSocket.readyState === WebSocket.OPEN) {
                 chatSocket.send(JSON.stringify({
-                    type: 'chat_message',
+                    type: 'chat_message_event',
                     content: content
                 }));
                 messageInput.value = '';
             }
         });
+
+        function handleDeleteMessage(data) {
+            const message = document.querySelector(`#message-${data.message_id}`);
+            if (message) {
+                message.remove()
+            }
+        }
+
+        $(document).on('click', '.delete-btn', function() {
+            const messageId = $(this).data('message-id');
+            console.log(messageId)
+            if (confirm('Are you sure you want to delete this message?')) {
+                if (chatSocket.readyState == WebSocket.OPEN) {
+                    chatSocket.send(JSON.stringify({
+                        type: 'delete_message_event',
+                        message_id: messageId
+                    }));
+                }
+            }
+        })
 
         const messagesScroll = document.getElementById('messages-scroll');
         if (messagesScroll) {
