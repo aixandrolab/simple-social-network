@@ -13,8 +13,8 @@
 <div class="ui container">
     <div class="ui center aligned segment" style="background: none; border: none; box-shadow: none;">
         <h1 class="ui orange header">
-            <i class="users icon"></i>
             <div class="content">
+                <i class="users icon"></i>
                 {% if request.user.profile == target_user %}
                     My friends
                 {% else %}
@@ -54,10 +54,8 @@
         <div class="ui orange segment" style="box-shadow: 0 0 5px 0 darkorange;">
             <div class="ui relaxed horizontal list">
                 <div class="item">
-                    <i class="user icon"></i>
                     <div class="content">
-                        <div class="header">Viewing friends of</div>
-                        <div class="description">{{ target_user.user.username }}</div>
+                        <div class="header"><i class="user icon"></i> Viewing friends of: <span class="text-orange">{{ target_user.user.username }}</span> </div>
                     </div>
                 </div>
             </div>
