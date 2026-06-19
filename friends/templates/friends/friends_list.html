@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    {% if request.user.profile == target_user %}
+        My friends
+    {% else %}
+        {{ target_user.user.username }}'s friends
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="ui container">
+    <div class="ui center aligned segment" style="background: none; border: none; box-shadow: none;">
+        <h1 class="ui orange header">
+            <i class="users icon"></i>
+            <div class="content">
+                {% if request.user.profile == target_user %}
+                    My friends
+                {% else %}
+                    {{ target_user.user.username }}'s friends
+                {% endif %}
+                <sup class="ui orange circular label">{{ friends_count }}</sup>
+            </div>
+        </h1>
+    </div>
+    <div class="ui divider"></div>
+    <a href="{% url 'profiles:profile_detail' request.user.profile.slug %}"
+       class="ui primary button">
+        <i class="arrow left icon"></i>
+        Profile
+    </a>
+    <div class="ui divider"></div>
+
+    {% if request.user.profile == target_user %}
+        <div class="ui three item orange menu">
+            <a href="{% url 'friends:friends_list' request.user.profile.user.username %}" class="active item">
+                <i class="users icon"></i>
+                Friends
+                <div class="ui orange circular label">{{ friends_count }}</div>
+            </a>
+            <a href="{% url 'friends:incoming_friendship_requests' %}" class="item">
+                <i class="user plus icon"></i>
+                Incoming
+                <div class="ui orange circular label">{{ incoming_count }}</div>
+            </a>
+            <a href="{% url 'friends:outgoing_friendship_reqeusts' %}" class="item">
+                <i class="paper plane outline icon"></i>
+                Outgoing
+                <div class="ui orange circular label">{{ outgoing_count }}</div>
+            </a>
+        </div>
+    {% else %}
+        <div class="ui orange segment" style="box-shadow: 0 0 5px 0 darkorange;">
+            <div class="ui relaxed horizontal list">
+                <div class="item">
+                    <i class="user icon"></i>
+                    <div class="content">
+                        <div class="header">Viewing friends of</div>
+                        <div class="description">{{ target_user.user.username }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if friends_count %}
+        <div class="ui segment" style="box-shadow: 0 0 5px 0 darkorange; margin-top: 20px;">
+            <div class="ui divided items">
+                {% for friend in page_obj %}
+                    <div class="item">
+                        <div class="ui small image">
+                            <img src="{{ friend.avatar_url }}" alt="{{ friend.full_name }}" style="object-fit: cover;">
+                        </div>
+                        <div class="content">
+                            <div class="header">
+                                <a href="{% url 'profiles:profile_detail' friend.slug %}" style="color: orange;">
+                                    {{ friend.full_name|default:friend.user.username }}
+                                </a>
+                                <sup>
+                                    {% if friend.is_online %}
+                                        <i class="green circle icon" style="font-size: 15px; vertical-align: middle;"></i>
+                                    {% else %}
+                                        <i class="red circle icon" style="font-size: 15px; vertical-align: middle;"></i>
+                                    {% endif %}
+                                </sup>
+                            </div>
+                            <div class="meta">
+                                <span class="username">@{{ friend.user.username }}</span>
+                            </div>
+                            <div class="description">
+                                <p>{{ friend.biography|truncatechars:100 }}</p>
+                            </div>
+                            <div class="extra">
+                                <div class="ui buttons">
+                                    <a href="{% url 'profiles:profile_detail' friend.slug %}" class="ui primary button">
+                                        <i class="eye icon"></i>
+                                        Profile
+                                    </a>
+                                    {% if request.user.profile != friend %}
+                                        <a href="{% url 'chats:create_chat' friend.id %}" class="ui orange button">
+                                            <i class="envelope icon"></i>
+                                            Message
+                                        </a>
+                                    {% endif %}
+                                    {% if request.user.profile == target_user and request.user.profile != friend %}
+                                        <a href="{% url 'friends:delete_friendship' friend.user.id %}"
+                                           onclick="return confirm('Are you sure you want to remove {{ friend.user.username }} from friends?')"
+                                           class="ui red button">
+                                            <i class="trash icon"></i>
+                                            Remove
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        {% if page_obj.has_other_pages %}
+            {% include 'components/paginator.html' %}
+        {% endif %}
+    {% else %}
+        <div class="ui warning message" style="box-shadow: 0 0 5px 0 darkorange;">
+            <i class="info circle icon"></i>
+            {% if request.user.profile == target_user %}
+                You don't have any friends yet. Start connecting with people!
+            {% else %}
+                {{ target_user.user.username }} doesn't have any friends yet.
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

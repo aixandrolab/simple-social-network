@@ -18,19 +18,19 @@
                 <div class="divider">
                     <hr>
                 </div>
-                <a class="item" href="{% url 'profiles:active_chats' %}">
+                <a class="item" href="{% url 'chats:active_chats' %}">
                     <i class="envelope icon"></i> Chats
                 </a>
                 <div class="divider">
                     <hr>
                 </div>
-                <a class="item" href="{% url 'profiles:friends_list' request.user.username %}">
+                <a class="item" href="{% url 'friends:friends_list' request.user.username %}">
                     <i class="users icon"></i> Friends list
                 </a>
-                <a class="item" href="{% url 'profiles:incoming_friendship_requests' %}">
+                <a class="item" href="{% url 'friends:incoming_friendship_requests' %}">
                     <i class="user plus icon"></i> Incoming friend requests
                 </a>
-                <a class="item" href="{% url 'profiles:outgoing_friendship_reqeusts' %}">
+                <a class="item" href="{% url 'friends:outgoing_friendship_reqeusts' %}">
                     <i class="paper plane outline icon"></i> Outgoing friend requests
                 </a>
                 <div class="divider">

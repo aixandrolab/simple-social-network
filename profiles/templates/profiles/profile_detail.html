@@ -84,7 +84,7 @@
                             <div class="ui green button" style="width: 100%;" disabled>
                                 <i class="check icon"></i> Friends
                             </div>
-                            <a href="{% url 'profiles:delete_friendship' profile.user.id %}"
+                            <a href="{% url 'friends:delete_friendship' profile.user.id %}"
                                onclick="return confirm('Are you sure you want to remove {{ profile.user.username }} from your friends?')"
                                class="ui red button">
                                 <i class="trash icon"></i> Remove friend
@@ -94,7 +94,7 @@
                                 <div class="ui orange button" style="width: 100%;" disabled>
                                     <i class="clock icon"></i> Request sent
                                 </div>
-                                <a href="{% url 'profiles:cancel_friendship_request' friendship.id %}"
+                                <a href="{% url 'friends:cancel_friendship_request' friendship.id %}"
                                    onclick="return confirm('Cancel friend request to {{ profile.user.username }}?')"
                                    class="ui grey button">
                                     <i class="times icon"></i> Cancel request
@@ -104,12 +104,12 @@
                                     You have a friend request from {{ friendship.sender.user.username }}<br>  <i class="arrow down icon"></i>Accept or reject? <i class="arrow down icon"></i>
                                 </div>
                                 <div class="ui two buttons" style="width: 100%;">
-                                    <a href="{% url 'profiles:accept_friendship_request' friendship.id %}"
+                                    <a href="{% url 'friends:accept_friendship_request' friendship.id %}"
                                        onclick="return confirm('Accept friend request from {{ profile.user.username }}?')"
                                        class="ui green button">
                                         <i class="check icon"></i> Accept
                                     </a>
-                                    <a href="{% url 'profiles:reject_friendship_request' friendship.id %}"
+                                    <a href="{% url 'friends:reject_friendship_request' friendship.id %}"
                                        onclick="return confirm('Reject friend request from {{ profile.user.username }}?')"
                                        class="ui red button">
                                         <i class="close icon"></i> Reject
@@ -118,26 +118,26 @@
                             {% endif %}
                         {% endif %}
                     {% else %}
-                        <a href="{% url 'profiles:send_friendship_request' profile.id %}"
+                        <a href="{% url 'friends:send_friendship_request' profile.id %}"
                            class="ui green button" style="width: 100%;">
                             <i class="user plus icon"></i> Send friend request
                         </a>
                     {% endif %}
                 </div>
                 <div style="margin-top: 10px;">
-                    <a class="ui yellow button" href="{% url 'profiles:create_chat' profile.id %}" style="width: 100%;">
+                    <a class="ui yellow button" href="{% url 'chats:create_chat' profile.id %}" style="width: 100%;">
                         <i class="envelope icon"></i> Message
                     </a>
                 </div>
                 <div style="margin-top: 10px;">
-                    <a class="ui primary button" href="{% url 'profiles:friends_list' profile.user.username %}" style="width: 100%;">
+                    <a class="ui primary button" href="{% url 'friends:friends_list' profile.user.username %}" style="width: 100%;">
                         <i class="users icon"></i> Friends list
                     </a>
                 </div>
             {% else %}
                 {% check_unread_messages request.user.profile as unread_count %}
                 <div style="margin-top: 10px;">
-                    <a class="ui yellow button" href="{% url 'profiles:active_chats' %}" style="width: 100%;">
+                    <a class="ui yellow button" href="{% url 'chats:active_chats' %}" style="width: 100%;">
                         <i class="envelope icon"></i> My chats
                         {% if unread_count %}
                             <sup class="ui orange circular label">{{ unread_count }}</sup>
@@ -145,7 +145,7 @@
                     </a>
                 </div>
                 <div style="margin-top: 10px;">
-                    <a class="ui primary button" href="{% url 'profiles:friends_list' profile.user.username %}" style="width: 100%;">
+                    <a class="ui primary button" href="{% url 'friends:friends_list' profile.user.username %}" style="width: 100%;">
                         <i class="users icon"></i> My friends
                     </a>
                 </div>
@@ -236,7 +236,7 @@
             {% if friends_requests and request.user.profile == profile %}
                 <div class="ui blue message" role="alert">
                     <i class="close icon"></i>
-                    You have a {{ friends_requests_count }} friendship requests! <a href="{% url 'profiles:incoming_friendship_requests' %}">Check</a> them out!
+                    You have a {{ friends_requests_count }} friendship requests! <a href="{% url 'friends:incoming_friendship_requests' %}">Check</a> them out!
                 </div>
             {% endif %}
         </div>

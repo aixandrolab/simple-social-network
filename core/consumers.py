@@ -6,7 +6,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.db.models import Q
 from django.utils import timezone
 
-from profiles.models import Chat, ChatMessage
+from chats.models import Chat, ChatMessage
 
 
 class ChatConsumer(AsyncWebsocketConsumer):

@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'profiles.apps.ProfilesConfig',
+    'friends.apps.FriendsConfig',
+    'chats.apps.ChatsConfig',
     'core.apps.CoreConfig',
 
     'debug_toolbar',
