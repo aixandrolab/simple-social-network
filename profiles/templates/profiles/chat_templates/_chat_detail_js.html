@@ -84,8 +84,7 @@
             messageContainer.scrollTop = messageContainer.scrollHeight;
         }
 
-        messageForm.addEventListener('submit', function(e) {
-            e.preventDefault();
+        function sendMessage() {
             const content = messageInput.value.trim();
             if (content && chatSocket.readyState === WebSocket.OPEN) {
                 chatSocket.send(JSON.stringify({
@@ -93,6 +92,18 @@
                     content: content
                 }));
                 messageInput.value = '';
+            }
+        }
+
+        messageForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            sendMessage();
+        });
+
+        messageInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
             }
         });
 
