@@ -440,5 +440,12 @@
 {% endblock %}
 
 {% block js %}
+    <script>
+        window.messagesContent = {
+            {% for message in chat_messages %}
+            '{{ message.id }}': `{{ message.content|escapejs }}`{% if not forloop.last %},{% endif %}
+            {% endfor %}
+        };
+    </script>
     {% include 'profiles/chat_templates/_chat_detail_js.html' %}
 {% endblock %}

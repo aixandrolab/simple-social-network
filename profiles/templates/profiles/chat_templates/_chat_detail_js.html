@@ -1,4 +1,5 @@
 <script>
+    const messagesContent = window.messagesContent || {};
     document.addEventListener('DOMContentLoaded', function() {
         let chatSocket;
         const chatId = '{{ chat.id }}'
@@ -42,7 +43,7 @@
 
         function handleNewMessage(data) {
             const isCurrentUser = data.sender_id == userId;
-            messageContent[data.message_id] = data.content
+            messagesContent[data.message_id] = data.content
 
             const messageHtml = `
                 <div class="message-wrapper ${isCurrentUser ? `message-wrapper-right` : `message-wrapper-left`}" id="message-${data.message_id}">
@@ -54,15 +55,15 @@
                                     `<div class="message-actions">
                                         <button class="ui mini compact icon button edit-message-btn"
                                                 style="background: rgba(0,0,0,0.3); padding: 5px; margin: 0;"
-                                                data-message-id="{{ message.id }}">
+                                                data-message-id="${data.message_id}"
+                                                data-message-content="${data.content}">
                                             <i class="edit outline icon" style="margin: 0; color: white;"></i>
                                         </button>
-                                        <a href="#"
-                                           class="ui mini compact icon button"
-                                           style="background: rgba(0,0,0,0.3); padding: 5px; margin: 0;"
-                                           onclick="return confirm('Are you sure you want to delete this message?')">
+                                        <button data-message-id="${data.message_id}"
+                                           class="ui mini compact icon button delete-btn"
+                                           style="background: rgba(0,0,0,0.3); padding: 5px; margin: 0;">
                                             <i class="trash alternate outline icon" style="margin: 0; color: white;"></i>
-                                        </a>
+                                        </button>
                                     </div>` : ''}
                                     <div class="message-sender-name">
                                         ${data.sender_name}
@@ -106,7 +107,7 @@
             const messageId = $(this).data('message-id');
             console.log(messageId)
             if (confirm('Are you sure you want to delete this message?')) {
-                if (chatSocket.readyState == WebSocket.OPEN) {
+                if (chatSocket.readyState === WebSocket.OPEN) {
                     chatSocket.send(JSON.stringify({
                         type: 'delete_message_event',
                         message_id: messageId
@@ -141,12 +142,10 @@
                     console.log('Text container not found.');
                 }
 
-                const timestampElement = message.querySelector('small')
+                const timestampElement = message.querySelector('span')
                 if (timestampElement) {
-                    const senderName = message.querySelector('.message-container')?.dataset?.senderName ||
-                        message.dataset.senderName  || 'Unknown';
                     timestampElement.innerHTML = `
-                        ${senderName}, ${formatTimeAgo(data.timestamp)}
+                        ${formatTimeAgo(data.timestamp)}
                         <span><i class="pencil icon"></i>Edited ${formatTimeAgo(data.edited_at)}</span>
                     `;
                 }
