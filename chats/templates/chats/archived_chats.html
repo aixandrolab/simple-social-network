@@ -48,11 +48,11 @@
                         <div class="item">
                             {% if chat.user1 != request.user.profile %}
                                 <div class="ui small image">
-                                    <img src="{{ chat.user1.avatar_url }}" alt="{{ chat.user1.full_name }}" style="object-fit: cover;">
+                                    <a href="{% url 'profiles:profile_detail' chat.user1.slug %}"><img src="{{ chat.user1.avatar_url }}" alt="{{ chat.user1.full_name }}" style="object-fit: cover;"></a>
                                 </div>
                             {% else %}
                                 <div class="ui small image">
-                                    <img src="{{ chat.user2.avatar_url }}" alt="{{ chat.user2.full_name }}" style="object-fit: cover;">
+                                    <a href="{% url 'profiles:profile_detail' chat.user2.slug %}"><img src="{{ chat.user2.avatar_url }}" alt="{{ chat.user2.full_name }}" style="object-fit: cover;"></a>
                                 </div>
                             {% endif %}
                             <div class="content">
@@ -72,17 +72,6 @@
                                     {% endif %}
                                 <div class="extra">
                                     <div class="ui buttons">
-                                        {% if chat.user1 != request.user.profile %}
-                                            <a href="{% url 'profiles:profile_detail' chat.user1.slug %}" class="ui primary button">
-                                                <i class="eye icon"></i>
-                                                Profile
-                                            </a>
-                                        {% else %}
-                                            <a href="{% url 'profiles:profile_detail' chat.user2.slug %}" class="ui primary button">
-                                                <i class="eye icon"></i>
-                                                Profile
-                                            </a>
-                                        {% endif %}
                                         <a href="{% url 'chats:unarchive_chat' chat.id %}" class="ui orange button">
                                             <i class="archive icon"></i>
                                             Unarchive
