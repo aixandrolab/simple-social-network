@@ -1,3 +1,4 @@
+# Copyright (c) 2026, Alexander Suvorov. All rights reserved.
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.core.cache import cache

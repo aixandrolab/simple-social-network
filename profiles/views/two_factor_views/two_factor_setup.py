@@ -1,3 +1,4 @@
+# Copyright (c) 2026, Alexander Suvorov. All rights reserved.
 import base64
 from io import BytesIO
 

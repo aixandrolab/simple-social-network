@@ -1,3 +1,4 @@
+# Copyright (c) 2026, Alexander Suvorov. All rights reserved.
 import json
 
 from channels.db import database_sync_to_async

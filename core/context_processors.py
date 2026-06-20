@@ -1,3 +1,4 @@
+# Copyright (c) 2026, Alexander Suvorov. All rights reserved.
 from django.core.cache import cache
 
 from core.models import SiteConfig

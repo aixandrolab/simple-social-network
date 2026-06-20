@@ -1,3 +1,4 @@
+# Copyright (c) 2026, Alexander Suvorov. All rights reserved.
 import logging
 
 from typing import List, Optional, Dict, Any, Union

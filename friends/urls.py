@@ -1,3 +1,4 @@
+# Copyright (c) 2026, Alexander Suvorov. All rights reserved.
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path

@@ -1,3 +1,4 @@
+# Copyright (c) 2026, Alexander Suvorov. All rights reserved.
 from django.contrib import messages
 from django.core.cache import cache
 from django.shortcuts import render, redirect, get_object_or_404

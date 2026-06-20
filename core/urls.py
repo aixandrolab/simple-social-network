@@ -1,3 +1,4 @@
+# Copyright (c) 2026, Alexander Suvorov. All rights reserved.
 from django.urls import path
 
 from core.views.auth_views.confirm_register import confirm_register_view

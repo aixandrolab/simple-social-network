@@ -1,3 +1,4 @@
+<!-- Copyright (c) 2026, Alexander Suvorov. All rights reserved. -->
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
@@ -27,6 +28,67 @@
             </div>
         </div>
     </div>
+
+    <footer class="ui vertical segment" style="background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 100%); padding: 2em 0em 1.5em 0em; margin-top: 0; border-top: 1px solid #2d2d2d;">
+            <div class="ui container">
+                <div class="ui stackable grid">
+                    <div class="six wide column">
+                        <h4 class="ui header" style="color: #ff851b;">
+                            <i class="orange users icon"></i>
+                            Simple Social Network
+                        </h4>
+                        <p style="color: #888; font-size: 0.9em;">
+                            Connect, chat, and share with friends in a secure and modern social network.
+                        </p>
+                        <div class="ui tiny icons" style="margin-top: 10px;">
+                            <a href="https://github.com/aixandrolab/" style="color: #ff851b;">
+                                <i class="big github icon"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="four wide column">
+                        <h5 class="ui header" style="color: #e0e0e0;">Pages</h5>
+                        <div class="ui list">
+                            <a href="{% url 'core:home' %}" class="item" style="color: #888;">Home</a>
+                            {% if user.is_authenticated %}
+                            <a href="{% url 'profiles:profile_detail' user.profile.slug %}" class="item" style="color: #888;">Profile</a>
+                            <a href="{% url 'chats:active_chats' %}" class="item" style="color: #888;">Chats</a>
+                            <a href="{% url 'profiles:settings' %}" class="item" style="color: #888;">Settings</a>
+                            {% else %}
+                            <a href="{% url 'core:login' %}" class="item" style="color: #888;">Login</a>
+                            <a href="{% url 'core:register' %}" class="item" style="color: #888;">Register</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="six wide column">
+                        <h5 class="ui header" style="color: #e0e0e0;">About</h5>
+                        <p style="color: #888; font-size: 0.9em;">
+                            Built with Django and Semantic UI. A simple yet powerful social networking platform.
+                        </p>
+                        <div style="margin-top: 10px;">
+                            <span class="ui label" style="background: #2d2d2d; color: #888;">
+                                <i class="orange lock icon"></i> Secure
+                            </span>
+                            <span class="ui label" style="background: #2d2d2d; color: #888;">
+                                <i class="orange users icon"></i> Private
+                            </span>
+                            <span class="ui label" style="background: #2d2d2d; color: #888;">
+                                <i class="orange bolt icon"></i> Fast
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui divider" style="background: #2d2d2d; margin: 1.5em 0;"></div>
+                <div class="ui center aligned" style="color: #555; font-size: 0.85em;">
+                    <p>&copy; 2026, Alexander Suvorov. All rights reserved.</p>
+                    <p style="margin-top: 5px;">
+                        <span style="color: #888;">Version 0.1.0</span>
+                        <span style="color: #555; margin: 0 10px;">|</span>
+                        <span style="color: #888;">Made with <i class="heart icon" style="color: #ff851b;"></i></span>
+                    </p>
+                </div>
+            </div>
+        </footer>
 
     {% include 'components/scripts.html' %}
     {% block js %}{% endblock %}

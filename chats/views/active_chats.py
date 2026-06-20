@@ -1,3 +1,4 @@
+# Copyright (c) 2026, Alexander Suvorov. All rights reserved.
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q, Subquery, OuterRef
 from django.shortcuts import render

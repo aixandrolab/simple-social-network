@@ -1,3 +1,4 @@
+# Copyright (c) 2026, Alexander Suvorov. All rights reserved.
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 

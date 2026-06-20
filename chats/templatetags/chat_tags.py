@@ -1,3 +1,4 @@
+# Copyright (c) 2026, Alexander Suvorov. All rights reserved.
 from django.db.models import Q
 from django.template.defaulttags import register
 

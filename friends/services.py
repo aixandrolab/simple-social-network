@@ -1,3 +1,4 @@
+# Copyright (c) 2026, Alexander Suvorov. All rights reserved.
 import logging
 
 from django.core.exceptions import ValidationError

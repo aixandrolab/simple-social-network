@@ -1,3 +1,4 @@
+# Copyright (c) 2026, Alexander Suvorov. All rights reserved.
 from .profile_model import Profile
 from .email_verification_token_model import EmailVerificationToken
 from .password_reset_token_model import PasswordResetToken
