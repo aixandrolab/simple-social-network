@@ -17,7 +17,6 @@ def deleted_chats_view(request):
         Q(user1_id=profile.id) | Q(user2_id=profile.id),
         chat_statuses__is_archived=False,
         chat_statuses__is_deleted=True,
-        chat_statuses__is_muted=False,
         chat_statuses__is_visible=True,
         chat_statuses__profile_id=profile.id,
     ))

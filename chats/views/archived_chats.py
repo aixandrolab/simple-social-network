@@ -12,7 +12,6 @@ def archived_chats_view(request):
         Q(user1=request.user.profile) | Q(user2=request.user.profile),
         chat_statuses__is_archived = True,
         chat_statuses__is_deleted = False,
-        chat_statuses__is_muted = False,
         chat_statuses__is_visible = True,
         chat_statuses__profile = request.user.profile,
     ).select_related(

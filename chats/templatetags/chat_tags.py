@@ -44,10 +44,12 @@ def deleted_chats_count(profile):
 def get_unread_messages_count(profile_id):
     return ChatStatus.objects.filter(
         profile__id=profile_id,
-        is_muted=False
+        is_muted=False,
+        is_deleted=False,
+        is_archived=False,
     ).filter(
         Q(chat__messages__is_read=False) &
-        ~Q(chat__messages__sender__id=profile_id)
+        ~Q(chat__messages__sender__id=profile_id),
     ).count()
 
 
