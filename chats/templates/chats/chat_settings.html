@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ chat.name }}'s settings{% endblock %}
+
+{% block content %}
+    <div class="ui container">
+        <div class="ui center aligned segment">
+            <h1 class="ui header text-orange">Chat settings</h1>
+        </div>
+        <div class="ui divider"></div>
+        <form method="post" action="" class="ui form">
+            {% csrf_token %}
+
+            <form method="post" action="{% url 'chats:chat_settings' chat.id %}" class="ui form">
+                {% for field in form %}
+                    <div class="field">
+                        <label class="text-light">{{ field.label }}</label>
+                        {{ field }}
+                    </div>
+                {% endfor %}
+
+                <a class="ui gray button" href="{% url 'chats:chat_detail' chat.id %}"><i class="arrow left icon"></i>Back to chat</a>
+                <button class="ui green button" type="submit">Update chat</button>
+            </form>
+
+        </form>
+    </div>
+{% endblock %}

@@ -303,6 +303,9 @@
                             <div class="item">
                                 <a href="{% url 'chats:clear_chat' chat.id %}" style="color: black" onclick="return(confirm('Are you sure, you want to clear this chat?'))"><i class="eraser icon"></i>Clear chat</a>
                             </div>
+                            <div class="item">
+                                <a href="{% url 'chats:chat_settings' chat.id %}" style="color: black"><i class="wrench icon"></i>Chat settings</a>
+                            </div>
                         </div>
                     </div>
                     <div class="right menu">
