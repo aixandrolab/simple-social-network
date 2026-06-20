@@ -1,15 +1,222 @@
 {% extends "base.html" %}
+{% load static %}
 
-{% block title %}Home - Simple Social Network{% endblock %}
+{% block title %}Simple Social Network - Home{% endblock %}
 
 {% block content %}
-<div class="ui vertical center aligned segment" style="padding: 3em 0em;">
-    <div class="ui text-light container">
-        <h1 class="ui orange huge header">
-            Simple Social Network
-        </h1>
-        <div class="ui divider"></div>
-        <h3 class="ui orange header">{{ site_config.description }}</h3>
+<div style="padding: 20px; box-shadow: 0 0 5px 0 darkorange;">
+    <div class="ui vertical segment" style="padding: 1.5em 0em 3em 0em; background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 100%); border-radius: 0 0 30px 30px; margin-top: -20px; box-shadow: 0 8px 32px rgba(0,0,0,0.5); border-bottom: 2px solid #2d2d2d; ">
+        <div class="ui text container" style="text-align: center; padding: 2em 0 1em 0;">
+            <h1 class="ui huge header" style="color: #ff851b; font-weight: 700; text-shadow: 0 2px 20px rgba(255,133,27,0.3);">
+                <i class="orange users icon"></i>
+                Simple Social Network
+            </h1>
+            <div class="ui divider" style="background: rgba(255,133,27,0.3); height: 2px; width: 100px; margin: 20px auto; box-shadow: 0 0 20px rgba(255,133,27,0.2);"></div>
+            <h3 class="ui header" style="color: #e0e0e0; font-weight: 300; margin-top: 20px; text-shadow: 0 2px 10px rgba(0,0,0,0.5);">
+                {{ site_config.description }}
+            </h3>
+
+            {% if not user.is_authenticated %}
+            <div style="margin-top: 30px;">
+                <a href="{% url 'core:register' %}" class="ui orange inverted huge button" style="margin-right: 10px; box-shadow: 0 4px 20px rgba(255,133,27,0.3);">
+                    <i class="user plus icon"></i> Get Started
+                </a>
+                <a href="{% url 'core:login' %}" class="ui basic orange inverted huge button" style="box-shadow: 0 4px 20px rgba(255,133,27,0.1);">
+                    <i class="sign in icon"></i> Login
+                </a>
+            </div>
+            {% else %}
+            <div style="margin-top: 30px;">
+                <a href="{% url 'profiles:profile_detail' user.profile.slug %}" class="ui orange inverted huge button" style="box-shadow: 0 4px 20px rgba(255,133,27,0.3);">
+                    <i class="user icon"></i> My Profile
+                </a>
+            </div>
+            {% endif %}
+        </div>
     </div>
+
+    <div class="ui vertical segment" style="padding: 3em 0em; background: #0d0d0d;">
+        <div class="ui container">
+            <div class="ui centered card" style="width: 100%; background: #1a1a1a; border-color: #2d2d2d; box-shadow: 0 8px 32px rgba(0,0,0,0.6); border: 1px solid #2d2d2d; border-radius: 16px;">
+                <div class="content" style="padding: 2em;">
+                    <h2 class="ui header" style="color: #ff851b; text-align: center; margin-bottom: 1.5em;">
+                        <i class="orange star icon"></i>
+                        Platform Features
+                    </h2>
+                    <div class="ui two column stackable grid">
+                        <div class="column">
+                            <div class="ui center aligned segment" style="background: #0d0d0d; border-color: #2d2d2d; min-height: 220px; box-shadow: 0 4px 20px rgba(0,0,0,0.4); transition: all 0.3s ease; border-radius: 12px;">
+                                <i class="orange massive connectdevelop icon" style="margin-top: 20px;"></i>
+                                <h3 class="ui header" style="color: #ff851b;">Connect</h3>
+                                <p style="color: #b0b0b0;">Connect with friends and make new ones in our vibrant community.</p>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="ui center aligned segment" style="background: #0d0d0d; border-color: #2d2d2d; min-height: 220px; box-shadow: 0 4px 20px rgba(0,0,0,0.4); transition: all 0.3s ease; border-radius: 12px;">
+                                <i class="orange massive comments icon" style="margin-top: 20px;"></i>
+                                <h3 class="ui header" style="color: #ff851b;">Chat</h3>
+                                <p style="color: #b0b0b0;">Real-time messaging with your friends.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ui vertical segment" style="padding: 3em 0em; background: #0d0d0d;">
+        <div class="ui container">
+            <div class="ui stackable grid">
+                <div class="eight wide column">
+                    <div class="ui card" style="width: 100%; background: #1a1a1a; border-color: #2d2d2d; box-shadow: 0 8px 32px rgba(0,0,0,0.6); border: 1px solid #2d2d2d; border-radius: 16px;">
+                        <div class="content" style="padding: 2em;">
+                            <h2 class="ui header" style="color: #ff851b;">
+                                <i class="orange rocket icon"></i>
+                                Why Choose Us?
+                            </h2>
+                            <div class="ui bulleted list" style="color: #e0e0e0;">
+                                <div class="item" style="padding: 12px 0; border-bottom: 1px solid #2d2d2d;">
+                                    <i class="green check icon"></i>
+                                    <span style="font-size: 1.1em;">Secure and private communication</span>
+                                </div>
+                                <div class="item" style="padding: 12px 0; border-bottom: 1px solid #2d2d2d;">
+                                    <i class="green check icon"></i>
+                                    <span style="font-size: 1.1em;">Two-factor authentication for safety</span>
+                                </div>
+                                <div class="item" style="padding: 12px 0; border-bottom: 1px solid #2d2d2d;">
+                                    <i class="green check icon"></i>
+                                    <span style="font-size: 1.1em;">Modern and intuitive interface</span>
+                                </div>
+                                <div class="item" style="padding: 12px 0; border-bottom: 1px solid #2d2d2d;">
+                                    <i class="green check icon"></i>
+                                    <span style="font-size: 1.1em;">Real-time messaging features</span>
+                                </div>
+                                <div class="item" style="padding: 12px 0;">
+                                    <i class="green check icon"></i>
+                                    <span style="font-size: 1.1em;">Customizable profile settings</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="eight wide column">
+                    {% if last_registered_profile %}
+                    <div class="ui card" style="width: 100%; background: #1a1a1a; border-color: #2d2d2d; box-shadow: 0 8px 32px rgba(0,0,0,0.6); border: 1px solid #2d2d2d; border-radius: 16px;">
+                        <div class="content" style="padding: 2em;">
+                            <h3 class="ui header" style="color: #ff851b;">
+                                <i class="orange user plus icon"></i>
+                                Latest Member
+                            </h3>
+                            <div class="ui items">
+                                <div class="item">
+                                    <div class="ui tiny image">
+                                        <img src="{{ last_registered_profile.avatar_url }}" alt="Avatar" style="border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">
+                                    </div>
+                                    <div class="content">
+                                        <div class="header" style="color: #e0e0e0; font-size: 1.2em;">
+                                            {{ last_registered_profile.full_name|default:last_registered_profile.user.username }}
+                                        </div>
+                                        <div class="meta" style="color: #888;">
+                                            <span>Joined {{ last_registered_profile.created_at|date:"F d, Y" }}</span>
+                                        </div>
+                                        <div class="description" style="color: #b0b0b0; margin-top: 8px;">
+                                            {{ last_registered_profile.biography|truncatechars:100 }}
+                                        </div>
+                                        <div class="extra" style="margin-top: 12px;">
+                                            <a href="{% url 'profiles:profile_detail' last_registered_profile.slug %}" class="ui orange tiny button" style="box-shadow: 0 2px 10px rgba(255,133,27,0.2);">
+                                                View Profile
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="ui card" style="width: 100%; background: #1a1a1a; border-color: #2d2d2d; box-shadow: 0 8px 32px rgba(0,0,0,0.6); border: 1px solid #2d2d2d; border-radius: 16px;">
+                        <div class="content" style="padding: 2em; text-align: center;">
+                            <h3 class="ui header" style="color: #ff851b;">
+                                <i class="orange users icon"></i>
+                                Welcome!
+                            </h3>
+                            <p style="color: #b0b0b0;">Be the first to join our community!</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ui vertical segment" style="padding: 3em 0em; background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 100%); border-top: 1px solid #2d2d2d; border-bottom: 1px solid #2d2d2d;">
+        <div class="ui container" style="text-align: center;">
+            <div class="ui card" style="width: 100%; background: #1a1a1a; border-color: #2d2d2d; box-shadow: 0 8px 32px rgba(0,0,0,0.6); border: 1px solid #2d2d2d; border-radius: 16px;">
+                <div class="content" style="padding: 2em;">
+                    <div class="ui three statistics" style="display: flex; justify-content: center; flex-wrap: wrap;">
+                        <div class="statistic" style="margin: 0 40px 20px 40px;">
+                            <div class="value" style="color: #ff851b; font-size: 3em; text-shadow: 0 2px 20px rgba(255,133,27,0.2);">
+                                {{ total_users|default:"0" }}
+                            </div>
+                            <div class="label" style="color: #b0b0b0; font-size: 1em;">Total Users</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if not user.is_authenticated %}
+    <div class="ui vertical segment" style="padding: 3em 0em; background: #0d0d0d;">
+        <div class="ui container" style="text-align: center;">
+            <div class="ui card" style="width: 100%; background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); border-color: #2d2d2d; box-shadow: 0 8px 32px rgba(0,0,0,0.6); border: 1px solid #2d2d2d; border-radius: 16px;">
+                <div class="content" style="padding: 3em;">
+                    <h2 class="ui header" style="color: #ff851b; font-size: 2.5em; text-shadow: 0 2px 20px rgba(255,133,27,0.2);">
+                        Ready to Get Started?
+                    </h2>
+                    <p style="color: #b0b0b0; font-size: 1.2em; margin: 20px 0;">
+                        Join our community today and start connecting with others!
+                    </p>
+                    <a href="{% url 'core:register' %}" class="ui orange huge button" style="margin-top: 20px; box-shadow: 0 4px 30px rgba(255,133,27,0.3);">
+                        <i class="user plus icon"></i> Sign Up Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
 </div>
+
+{% endblock %}
+
+{% block js %}
+<script>
+    $(document).ready(function() {
+        $('.ui.center.aligned.segment').hover(
+            function() {
+                $(this).css({
+                    'transform': 'translateY(-5px)',
+                    'box-shadow': '0 8px 30px rgba(0,0,0,0.6)',
+                    'transition': 'all 0.3s ease'
+                });
+            },
+            function() {
+                $(this).css({
+                    'transform': 'translateY(0)',
+                    'box-shadow': '0 4px 20px rgba(0,0,0,0.4)',
+                    'transition': 'all 0.3s ease'
+                });
+            }
+        );
+
+        $('a[href^="#"]').on('click', function(event) {
+            var target = $(this.getAttribute('href'));
+            if (target.length) {
+                event.preventDefault();
+                $('html, body').stop().animate({
+                    scrollTop: target.offset().top - 70
+                }, 1000);
+            }
+        });
+    });
+</script>
 {% endblock %}
