@@ -38,6 +38,21 @@
         </div>
 
         <div class="ui center aligned segment">
+            {% if chat_status.is_muted %}
+                <a href="{% url 'chats:mute_chat' chat.id %}"
+                   class="ui gray button"
+                   onclick="return confirm('Are you sure you want to unmute this chat?')">
+                    <i class="eye icon"></i>
+                    Unmute
+                </a>
+            {% else %}
+                <a href="{% url 'chats:mute_chat' chat.id %}"
+                   class="ui gray button"
+                   onclick="return confirm('Are you sure you want to mute this chat?')">
+                    <i class="eye slash icon"></i>
+                    Mute
+                </a>
+            {% endif %}
             {% if chat_status.is_archived %}
                 <a href="{% url 'chats:archive_chat' chat.id %}"
                    class="ui orange button"
@@ -69,6 +84,5 @@
                 </a>
             {% endif %}
         </div>
-
     </div>
 {% endblock %}

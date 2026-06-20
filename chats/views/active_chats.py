@@ -17,12 +17,13 @@ def active_chats_view(request):
         Q(user1=request.user.profile) | Q(user2=request.user.profile),
         chat_statuses__is_archived = False,
         chat_statuses__is_deleted = False,
-        chat_statuses__is_muted = False,
         chat_statuses__is_visible = True,
         chat_statuses__profile = request.user.profile,
     ).select_related(
         'user1__user',
         'user2__user'
+    ).prefetch_related(
+        'chat_statuses'
     ).annotate(
         last_message_text=Subquery(last_message_subquery.values('content')[:1]),
         last_message_timestamp=Subquery(last_message_subquery.values('timestamp')[:1]),

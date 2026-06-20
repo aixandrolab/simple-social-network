@@ -57,9 +57,10 @@
                             {% endif %}
                             <div class="content">
                                 <div class="header">
-                                    <a href="" style="color: orange;">
-                                        {{ chat.name }}
-                                    </a>
+                                    {% check_chat_status profile_id=request.user.profile.id chat_id=chat.id status='archived' as is_archived %}
+                                    <p style="color: orange;">
+                                        {{ chat.name }} {% if is_archived %} <span style="color: gray;">(Archived)</span>{% endif %}
+                                    </p>
                                 </div>
                                     {% if chat.user1 != request.user.profile %}
                                         <div class="meta">

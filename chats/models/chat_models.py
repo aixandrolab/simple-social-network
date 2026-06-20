@@ -75,6 +75,8 @@ class ChatStatus(models.Model):
             self.deleted_at = timezone.now()
         if self.is_archived and not self.archived_at:
             self.archived_at = timezone.now()
+        if self.is_muted and not self.muted_at:
+            self.muted_at = timezone.now()
         super().save(*args, **kwargs)
 
     def __str__(self):

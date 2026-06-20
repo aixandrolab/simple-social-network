@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% include chat_tags %}
+{% load chat_tags %}
 
 {% block title %}Active chats{% endblock %}
 
@@ -57,9 +57,10 @@
                             {% endif %}
                             <div class="content">
                                 <div class="header">
+                                    {% check_chat_status profile_id=request.user.profile.id chat_id=chat.id status='muted' as is_muted %}
                                     <a href="" style="color: orange;">
                                         {{ chat.name }}
-                                    </a>
+                                    </a> {% if is_muted %} <span style="color: gray;">(Muted)</span>{% endif %}
                                 </div>
                                     {% if chat.user1 != request.user.profile %}
                                         <div class="meta">
@@ -76,7 +77,10 @@
                                         Last message:
                                         <span style="color: #9cdcfe;">
                                             {% if chat.last_message_text %}
-                                                {{ chat.last_message_text|truncatechars:50 }} {% if check_unread %}<span class="text-orange">(New message!)</span> {% endif %}
+                                                {{ chat.last_message_text|truncatechars:50 }}
+                                                {% if check_unread %}
+                                                    <span class="text-orange">(New message!)</span>
+                                                {% endif %}
                                             {% else %}
                                                 No messages here
                                             {% endif %}

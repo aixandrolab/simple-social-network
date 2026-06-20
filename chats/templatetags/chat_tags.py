@@ -61,3 +61,26 @@ def check_unread_messages(profile_id, chat_id):
         Q(chat__messages__is_read=False) &
         ~Q(chat__messages__sender__id=profile_id)
     ).exists()
+
+
+@register.simple_tag
+def check_chat_status(profile_id, chat_id, status):
+    chat_status = ChatStatus.objects.get(
+        chat_id=chat_id,
+        profile_id=profile_id,
+    )
+
+    if status == 'archived':
+        archived_status = chat_status.is_archived
+        return archived_status
+
+    elif status == 'deleted':
+        deleted_status = chat_status.is_deleted
+        return deleted_status
+
+    elif status == 'muted':
+        muted_status = chat_status.is_muted
+        return muted_status
+
+    else:
+        return "We don't know this status..."
