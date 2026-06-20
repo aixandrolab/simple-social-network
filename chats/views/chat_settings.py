@@ -3,12 +3,13 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 
 from chats.forms.chat_settings_form import ChatSettingsForm
-from chats.models import Chat
+from chats.models import Chat, ChatStatus
 
 
 @login_required()
 def chat_settings_view(request, chat_id):
     chat = get_object_or_404(Chat, pk=chat_id)
+    chat_status = ChatStatus.objects.get(chat=chat, profile=request.user.profile)
 
     if chat.user1 != request.user.profile and chat.user2 != request.user.profile:
         messages.error(request, "You can't update this chat.")
@@ -26,6 +27,7 @@ def chat_settings_view(request, chat_id):
     context = {
         'chat': chat,
         'form': form,
+        'chat_status': chat_status,
     }
 
     return render(request, 'chats/chat_settings.html', context)

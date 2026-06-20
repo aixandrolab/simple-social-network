@@ -89,15 +89,9 @@
                                             <i class="envelope icon"></i>
                                             Open chat
                                         </a>
-                                        <a href="{% url 'chats:archive_chat' chat.id %}" class="ui orange button">
-                                            <i class="archive icon"></i>
-                                            Archive
-                                        </a>
-                                        <a href="{% url 'chats:delete_chat' chat.id %}"
-                                           onclick="return confirm('Are you sure you want to delete this chat?')"
-                                           class="ui red button">
-                                            <i class="trash icon"></i>
-                                            Delete
+                                        <a href="{% url 'chats:chat_settings' chat.id %}" class="ui grey button">
+                                            <i class="wrench icon"></i>
+                                            Settings
                                         </a>
                                     </div>
                                 </div>

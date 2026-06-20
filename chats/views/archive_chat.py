@@ -13,13 +13,14 @@ def archive_chat_view(request, chat_id):
             messages.error(request, 'You cannot archive this chat')
             return redirect('chats:active_chats')
         chat_status = ChatStatus.objects.get(chat=chat, profile=request.user.profile)
-        if chat_status.is_archived:
-            messages.error(request, 'You cannot archive this chat')
-            return redirect('chats:archived_chats')
-        chat_status.is_archived = True
+        chat_status.is_archived = not chat_status.is_archived
         chat_status.save()
-        messages.success(request, 'Chat was archived successfully')
-        return redirect('chats:archived_chats')
+        if not chat_status.is_archived:
+            messages.success(request, 'Chat was unarchived successfully')
+            return redirect('chats:active_chats')
+        else:
+            messages.success(request, 'Chat was archived successfully')
+            return redirect('chats:archived_chats')
     except Exception as e:
         messages.error(request, f'Chat does not exist!')
         print(e)

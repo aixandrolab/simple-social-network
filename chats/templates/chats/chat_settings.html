@@ -5,24 +5,70 @@
 {% block content %}
     <div class="ui container">
         <div class="ui center aligned segment">
-            <h1 class="ui header text-orange">Chat settings</h1>
+            <h1 class="ui header orange">Chat settings</h1>
         </div>
         <div class="ui divider"></div>
-        <form method="post" action="" class="ui form">
+        <form method="post"
+              action="{% url 'chats:chat_settings' chat.id %}"
+              class="ui form">
             {% csrf_token %}
 
-            <form method="post" action="{% url 'chats:chat_settings' chat.id %}" class="ui form">
-                {% for field in form %}
-                    <div class="field">
-                        <label class="text-light">{{ field.label }}</label>
-                        {{ field }}
-                    </div>
-                {% endfor %}
+            {% for field in form %}
+                <div class="field">
+                    <label class="text-light">{{ field.label }}</label>
+                    {{ field }}
+                </div>
+            {% endfor %}
 
-                <a class="ui gray button" href="{% url 'chats:chat_detail' chat.id %}"><i class="arrow left icon"></i>Back to chat</a>
-                <button class="ui green button" type="submit">Update chat</button>
-            </form>
-
+            <a class="ui gray button"
+               href="{% url 'chats:chat_detail' chat.id %}">
+                <i class="arrow left icon"></i>
+                Back to chat
+            </a>
+            <button class="ui green button"
+                    type="submit">
+                Update chat
+            </button>
         </form>
+
+        <hr>
+
+        <div class="ui center aligned segment">
+            <h1 class="ui header orange">Other settings</h1>
+        </div>
+
+        <div class="ui center aligned segment">
+            {% if chat_status.is_archived %}
+                <a href="{% url 'chats:archive_chat' chat.id %}"
+                   class="ui orange button"
+                   onclick="return confirm('Are you sure you want to unarchive this chat?')">
+                    <i class="archive icon"></i>
+                    Unarchive
+                </a>
+            {% else %}
+                <a href="{% url 'chats:archive_chat' chat.id %}"
+                   class="ui orange button"
+                    onclick="return confirm('Are you sure you want to archive this chat?')">
+                    <i class="archive icon"></i>
+                    Archive
+                </a>
+            {% endif %}
+            {% if chat_status.is_deleted %}
+                <a href="{% url 'chats:restore_chat' chat.id %}"
+                   class="ui green button"
+                   onclick="return confirm('Are you sure you want to restore this chat?')">
+                    <i class="sync icon"></i>
+                    Restore
+                </a>
+            {% else %}
+                <a href="{% url 'chats:delete_chat' chat.id %}"
+                   onclick="return confirm('Are you sure you want to delete this chat?')"
+                   class="ui red button">
+                    <i class="trash icon"></i>
+                    Delete
+                </a>
+            {% endif %}
+        </div>
+
     </div>
 {% endblock %}
