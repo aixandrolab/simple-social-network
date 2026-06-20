@@ -53,35 +53,49 @@
                     Mute
                 </a>
             {% endif %}
-            {% if chat_status.is_archived %}
-                <a href="{% url 'chats:archive_chat' chat.id %}"
-                   class="ui orange button"
-                   onclick="return confirm('Are you sure you want to unarchive this chat?')">
-                    <i class="archive icon"></i>
-                    Unarchive
-                </a>
-            {% else %}
-                <a href="{% url 'chats:archive_chat' chat.id %}"
-                   class="ui orange button"
-                    onclick="return confirm('Are you sure you want to archive this chat?')">
-                    <i class="archive icon"></i>
-                    Archive
-                </a>
+
+            {% if not chat_status.is_deleted %}
+
+                {% if chat_status.is_archived and not chat_status.is_deleted %}
+
+                    <a href="{% url 'chats:archive_chat' chat.id %}"
+                       class="ui orange button"
+                       onclick="return confirm('Are you sure you want to unarchive this chat?')">
+                        <i class="archive icon"></i>
+                        Unarchive
+                    </a>
+
+                {% else %}
+
+                    <a href="{% url 'chats:archive_chat' chat.id %}"
+                       class="ui orange button"
+                        onclick="return confirm('Are you sure you want to archive this chat?')">
+                        <i class="archive icon"></i>
+                        Archive
+                    </a>
+
+                {% endif %}
+
             {% endif %}
-            {% if chat_status.is_deleted %}
-                <a href="{% url 'chats:restore_chat' chat.id %}"
-                   class="ui green button"
-                   onclick="return confirm('Are you sure you want to restore this chat?')">
-                    <i class="sync icon"></i>
-                    Restore
-                </a>
-            {% else %}
-                <a href="{% url 'chats:delete_chat' chat.id %}"
-                   onclick="return confirm('Are you sure you want to delete this chat?')"
-                   class="ui red button">
-                    <i class="trash icon"></i>
-                    Delete
-                </a>
+
+            {% if not chat_status.is_archived %}
+
+                {% if chat_status.is_deleted %}
+                    <a href="{% url 'chats:restore_chat' chat.id %}"
+                       class="ui green button"
+                       onclick="return confirm('Are you sure you want to restore this chat?')">
+                        <i class="sync icon"></i>
+                        Restore
+                    </a>
+                {% else %}
+                    <a href="{% url 'chats:delete_chat' chat.id %}"
+                       onclick="return confirm('Are you sure you want to delete this chat?')"
+                       class="ui red button">
+                        <i class="trash icon"></i>
+                        Delete
+                    </a>
+                {% endif %}
+
             {% endif %}
         </div>
     </div>
