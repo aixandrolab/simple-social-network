@@ -250,13 +250,7 @@
                 <div class="ui divider"></div>
 
                 <div class="participant-item">
-                    {% if chat.user1.avatar %}
-                        <a href="{% url 'profiles:profile_detail' chat.user1.slug %}"><img class="participant-avatar" src="{{ chat.user1.avatar.url }}" alt="{{ chat.user1.user.username }}"></a>
-                    {% else %}
-                        <div class="ui circular placeholder" style="width: 50px; height: 50px;">
-                            <div class="image header"></div>
-                        </div>
-                    {% endif %}
+                        <a href="{% url 'profiles:profile_detail' chat.user1.slug %}"><img class="participant-avatar" src="{{ chat.user1.avatar_url }}" alt="{{ chat.user1.user.username }}"></a>
                     <div class="participant-info">
                         <div class="participant-name">
                             {{ chat.user1.user.get_full_name|default:chat.user1.user.username }}
@@ -325,13 +319,7 @@
                             <div class="message-bubble {% if message.sender == request.user.profile %}message-right{% else %}message-left{% endif %}">
                                 <div {% if message.sender != request.user.profile %} style="display: flex; align-items: flex-start; max-width: 100%;" {% endif %}>
                                     {% if message.sender != request.user.profile %}
-                                        {% if message.sender.avatar %}
-                                            <img class="message-avatar" src="{{ message.sender.avatar.url }}" alt="{{ message.sender.user.username }}">
-                                        {% else %}
-                                            <div class="ui circular placeholder" style="width: 32px; height: 32px; flex-shrink: 0;">
-                                                <div class="image header"></div>
-                                            </div>
-                                        {% endif %}
+                                    <img class="message-avatar" src="{{ message.sender.avatar_url }}" alt="{{ message.sender.user.username }}">
                                     {% endif %}
                                     <div class="message-bubble-content" style="position: relative;">
                                         {% if message.sender == request.user.profile %}
