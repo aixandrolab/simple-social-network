@@ -1,12 +1,22 @@
 # Simple Social Network
 
-**Version**: 0.1.0
+**Version**: 1.0.0
 
 ---
 
 ## Overview
 
 Simple Social Network is a Django-based web application that provides real-time messaging, friendship management, user profiles, and two-factor authentication. The platform is designed for secure communication and social interaction with a modern, dark-themed interface.
+
+---
+
+## ⚠️ Disclaimer
+
+**By using this software, you agree to the full disclaimer terms.**
+
+**Summary:** Software provided "AS IS" without warranty. You assume all risks.
+
+**Full legal disclaimer:** See [DISCLAIMER.md](DISCLAIMER.md)
 
 ---
 
