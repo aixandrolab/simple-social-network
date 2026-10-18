@@ -20,7 +20,7 @@ Simple Social Network is a Django-based web application that provides real-time 
 
 ---
 
-![Home page](https://github.com/aixandrolab/simple-social-network/blob/master/data/images/home_page.jpg)
+![Home page](https://github.com/aixandrolab/simple-social-network/blob/master/data/images/home_page.png)
 
 ---
 
@@ -429,17 +429,17 @@ Session.objects.all().delete()
 
 ---
 
-![Profile page](https://github.com/aixandrolab/simple-social-network/blob/master/data/images/profile_page.jpg)
+![Profile page](https://github.com/aixandrolab/simple-social-network/blob/master/data/images/profile_page.png)
 
-![Chat page](https://github.com/aixandrolab/simple-social-network/blob/master/data/images/chat_page.jpg)
+![Chat page](https://github.com/aixandrolab/simple-social-network/blob/master/data/images/chat_page.png)
 
-![Friends page](https://github.com/aixandrolab/simple-social-network/blob/master/data/images/friends_page.jpg)
+![Friends page](https://github.com/aixandrolab/simple-social-network/blob/master/data/images/friends_page.png)
 
-![Other Profile page](https://github.com/aixandrolab/simple-social-network/blob/master/data/images/other_profile_page.jpg)
+![Other Profile page](https://github.com/aixandrolab/simple-social-network/blob/master/data/images/other_profile_page.png)
 
-![Search page](https://github.com/aixandrolab/simple-social-network/blob/master/data/images/search_page.jpg)
+![Search page](https://github.com/aixandrolab/simple-social-network/blob/master/data/images/search_page.png)
 
-![Footer page](https://github.com/aixandrolab/simple-social-network/blob/master/data/images/footer.jpg)
+![Footer page](https://github.com/aixandrolab/simple-social-network/blob/master/data/images/footer.png)
 
 ---
 
