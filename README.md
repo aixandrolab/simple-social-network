@@ -1,6 +1,6 @@
 # Simple Social Network
 
-**Version**: 1.0.0
+**Version**: 1.0.1
 
 ---
 
@@ -17,6 +17,10 @@ Simple Social Network is a Django-based web application that provides real-time 
 **Summary:** Software provided "AS IS" without warranty. You assume all risks.
 
 **Full legal disclaimer:** See [DISCLAIMER.md](DISCLAIMER.md)
+
+---
+
+![Home page](https://github.com/aixandrolab/simple-social-network/blob/master/data/images/home_page.jpg)
 
 ---
 
@@ -247,7 +251,7 @@ simple-social-network/
 │   ├── signals.py            # User profile creation
 │   ├── forms/                # Profile, 2FA, password forms
 │   ├── utils/                # Image validation
-│   ├── models/             # Profile, token models
+│   ├── models/               # Profile, token models
 │   └── views/                # Profile, 2FA, settings views
 ├── static/                   # Static files
 ├── templates/                # Base templates and components
@@ -425,6 +429,20 @@ Session.objects.all().delete()
 
 ---
 
+![Profile page](https://github.com/aixandrolab/simple-social-network/blob/master/data/images/profile_page.jpg)
+
+![Chat page](https://github.com/aixandrolab/simple-social-network/blob/master/data/images/chat_page.jpg)
+
+![Friends page](https://github.com/aixandrolab/simple-social-network/blob/master/data/images/friends_page.jpg)
+
+![Other Profile page](https://github.com/aixandrolab/simple-social-network/blob/master/data/images/other_profile_page.jpg)
+
+![Search page](https://github.com/aixandrolab/simple-social-network/blob/master/data/images/search_page.jpg)
+
+![Footer page](https://github.com/aixandrolab/simple-social-network/blob/master/data/images/footer.jpg)
+
+---
+
 ## License
 
-Copyright (c) 2026, Alexander Suvorov. All rights reserved.
+Copyright © 2026, Alexander Suvorov. All rights reserved.
